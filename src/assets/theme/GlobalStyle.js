@@ -132,6 +132,13 @@ const GlobalStyle = createGlobalStyle`
     
     * {
         box-sizing: border-box;
+
+        /* Color variables */
+        --details-yellow: #FFC120;
+        --dark-blue: #173C51;
+        --black: #0C181F;
+        --blue: #3296D4;
+        --grey: #BABABA;
     }
 
     ::placeholder {
