@@ -16,7 +16,8 @@ export default function SignUpPage() {
   const [signUpInfo, setSignUpInfo] = useState({});
   const [disabled, setDisabled] = useState(false);
 
-  const SIGNUP_URL = "http://localhost:5000/sign-up"; //TODO trocar para URL do Heroku
+  // const SIGNUP_URL = "http://localhost:5000/sign-up"; //TODO trocar para URL do Heroku
+  const SIGNUP_URL = "https://eletrostore-api.herokuapp.com/sign-up";
 
   const navigate = useNavigate();
 
