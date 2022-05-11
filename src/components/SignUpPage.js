@@ -7,12 +7,14 @@ import {
   IoLockClosedOutline,
 } from "react-icons/io5";
 import axios from "axios";
+import { Bars } from "react-loader-spinner";
 
 import background from "./../assets/images/background.svg";
 import EletroStore from "./../assets/images/EletroStore2.svg";
 
 export default function SignUpPage() {
   const [signUpInfo, setSignUpInfo] = useState({});
+  const [disabled, setDisabled] = useState(false);
 
   const SIGNUP_URL = "http://localhost:5000/sign-up"; //TODO trocar para URL do Heroku
 
@@ -25,13 +27,17 @@ export default function SignUpPage() {
 
   function sendUserInfos(event) {
     event.preventDefault();
+    setDisabled(true);
 
     const promise = axios.post(SIGNUP_URL, signUpInfo);
     promise.then((response) => {
       console.log(response.data);
       navigate("/");
     });
-    promise.catch((error) => alert(error.response.data));
+    promise.catch((error) => {
+      alert(error.response.data);
+      setDisabled(false);
+    });
   }
 
   return (
@@ -43,6 +49,7 @@ export default function SignUpPage() {
             type="text"
             name="name"
             placeholder="Nome"
+            disabled={disabled}
             onChange={updateUserInfo}
             required
           />
@@ -53,6 +60,7 @@ export default function SignUpPage() {
             type="email"
             name="email"
             placeholder="Email"
+            disabled={disabled}
             onChange={updateUserInfo}
             required
           />
@@ -63,6 +71,7 @@ export default function SignUpPage() {
             type="password"
             name="password"
             placeholder="Senha"
+            disabled={disabled}
             onChange={updateUserInfo}
             required
           />
@@ -73,12 +82,19 @@ export default function SignUpPage() {
             type="password"
             name="repeat_password"
             placeholder="Confirmar senha"
+            disabled={disabled}
             onChange={updateUserInfo}
             required
           />
           <IoLockClosedOutline className="input-icon" />
         </InputContainer>
-        <button type="submit">Cadastrar</button>
+        <button type="submit" disabled={disabled}>
+          {disabled ? (
+            <Bars color="#fff" height={30} width={30} />
+          ) : (
+            "Cadastrar"
+          )}
+        </button>
       </StyledForm>
       <p>
         Já possui uma conta? <StyledLink to="/">Entre agora!</StyledLink>
@@ -119,6 +135,9 @@ const StyledForm = styled.form`
   align-items: center;
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 40px;
     border-radius: 10px;
@@ -134,6 +153,10 @@ const StyledForm = styled.form`
     &:hover {
       filter: brightness(1.5);
       cursor: pointer;
+    }
+
+    &:disabled {
+      opacity: 0.8;
     }
   }
 `;
@@ -156,6 +179,10 @@ const InputContainer = styled.div`
     margin-bottom: 25px;
     font-size: 14px;
     line-height: 20px;
+
+    &:disabled {
+      background-color: var(--disabled-background);
+    }
   }
 
   .input-icon {
