@@ -1,29 +1,71 @@
+import { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   IoPersonOutline,
   IoMailOutline,
   IoLockClosedOutline,
 } from "react-icons/io5";
+import axios from "axios";
 
 import background from "./../assets/images/background.svg";
 import EletroStore from "./../assets/images/EletroStore2.svg";
 
 export default function SignUpPage() {
+  const [signUpInfo, setSignUpInfo] = useState({});
+
+  const SIGNUP_URL = "http://localhost:5000/sign-up"; //TODO trocar para URL do Heroku
+
+  const navigate = useNavigate();
+
+  function updateUserInfo(event) {
+    const { name, value } = event.target;
+    setSignUpInfo((prevState) => ({ ...prevState, [name]: value }));
+  }
+
+  function sendUserInfos(event) {
+    event.preventDefault();
+
+    const promise = axios.post(SIGNUP_URL, signUpInfo);
+    promise.then((response) => {
+      console.log(response.data);
+      navigate("/");
+    });
+    promise.catch((error) => alert(error.response.data));
+  }
+
   return (
     <SignUpContainer>
       <img src={EletroStore} alt="Eletro Store Logo" />
-      <StyledForm>
+      <StyledForm onSubmit={sendUserInfos}>
         <InputContainer>
-          <input type="text" name="name" placeholder="Nome" required />
+          <input
+            type="text"
+            name="name"
+            placeholder="Nome"
+            onChange={updateUserInfo}
+            required
+          />
           <IoPersonOutline className="input-icon" />
         </InputContainer>
         <InputContainer>
-          <input type="email" name="email" placeholder="Email" required />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={updateUserInfo}
+            required
+          />
           <IoMailOutline className="input-icon" />
         </InputContainer>
         <InputContainer>
-          <input type="password" name="password" placeholder="Senha" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Senha"
+            onChange={updateUserInfo}
+            required
+          />
           <IoLockClosedOutline className="input-icon" />
         </InputContainer>
         <InputContainer>
@@ -31,6 +73,7 @@ export default function SignUpPage() {
             type="password"
             name="repeat_password"
             placeholder="Confirmar senha"
+            onChange={updateUserInfo}
             required
           />
           <IoLockClosedOutline className="input-icon" />
