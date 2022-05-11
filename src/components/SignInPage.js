@@ -1,93 +1,88 @@
-import { useState } from "react";
+﻿import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
+
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  IoPersonOutline,
-  IoMailOutline,
-  IoLockClosedOutline,
-} from "react-icons/io5";
-import axios from "axios";
+
+// import UserInfoContext from "../context/UserInfoContext";
 
 import background from "./../assets/images/background.svg";
-import EletroStore from "./../assets/images/EletroStore2.svg";
+import eletroStore from "./../assets/images/EletroStore2.svg";
 
-export default function SignUpPage() {
-  const [signUpInfo, setSignUpInfo] = useState({});
+export default function SignInPage() {
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const SIGNUP_URL = "http://localhost:5000/sign-up"; //TODO trocar para URL do Heroku
+  // TODO Set token and username on context api
+  // const { setToken, setName } = useContext(UserInfoContext);
 
-  const navigate = useNavigate();
+  function handleChange(e) {
+    switch (e.target.id) {
+      case "emailInput":
+        console.log(e.target.id);
+        setUserData({ ...userData, email: e.target.value });
+        break;
 
-  function updateUserInfo(event) {
-    const { name, value } = event.target;
-    setSignUpInfo((prevState) => ({ ...prevState, [name]: value }));
+      case "passwordInput":
+        console.log(e.target.id);
+        setUserData({ ...userData, password: e.target.value });
+        break;
+
+      default:
+        console.log("Unexpected input!");
+        break;
+    }
   }
 
-  function sendUserInfos(event) {
-    event.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
 
-    const promise = axios.post(SIGNUP_URL, signUpInfo);
-    promise.then((response) => {
-      console.log(response.data);
-      navigate("/");
-    });
-    promise.catch((error) => alert(error.response.data));
+    // TODO axios post sign-in
   }
 
   return (
-    <SignUpContainer>
-      <img src={EletroStore} alt="Eletro Store Logo" />
-      <StyledForm onSubmit={sendUserInfos}>
+    <SignInComponent>
+      <img src={eletroStore} alt="Eletro Store Logo" />
+      <StyledForm>
         <InputContainer>
           <input
-            type="text"
-            name="name"
-            placeholder="Nome"
-            onChange={updateUserInfo}
-            required
-          />
-          <IoPersonOutline className="input-icon" />
-        </InputContainer>
-        <InputContainer>
-          <input
+            onChange={handleChange}
             type="email"
+            id="emailInput"
             name="email"
             placeholder="Email"
-            onChange={updateUserInfo}
             required
           />
           <IoMailOutline className="input-icon" />
         </InputContainer>
+
         <InputContainer>
           <input
+            onChange={handleChange}
             type="password"
+            id="passwordInput"
             name="password"
             placeholder="Senha"
-            onChange={updateUserInfo}
             required
           />
           <IoLockClosedOutline className="input-icon" />
         </InputContainer>
-        <InputContainer>
-          <input
-            type="password"
-            name="repeat_password"
-            placeholder="Confirmar senha"
-            onChange={updateUserInfo}
-            required
-          />
-          <IoLockClosedOutline className="input-icon" />
-        </InputContainer>
-        <button type="submit">Cadastrar</button>
+
+        <button onSubmit={handleSubmit} type="submit">
+          Entrar
+        </button>
       </StyledForm>
       <p>
-        Já possui uma conta? <StyledLink to="/">Entre agora!</StyledLink>
+        Não possui uma conta?{" "}
+        <StyledLink to="/sign-up">Cadastre-se agora!</StyledLink>
       </p>
-    </SignUpContainer>
+    </SignInComponent>
   );
 }
 
-const SignUpContainer = styled.div`
+const SignInComponent = styled.div`
   width: 100%;
   height: 100vh;
   background-image: url(${background});
