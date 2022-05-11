@@ -20,7 +20,7 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/sign-up" element={<SignUpPage />} />
-            <Route path="/sign-in" element={<SignInPage />} />
+            <Route path="/" element={<SignInPage />} />
           </Routes>
         </BrowserRouter>
       </UserInfoContext.Provider>
