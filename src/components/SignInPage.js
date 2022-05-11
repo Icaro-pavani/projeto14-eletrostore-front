@@ -1,50 +1,88 @@
-import styled from "styled-components";
+﻿import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import {
-  IoPersonOutline,
-  IoMailOutline,
-  IoLockClosedOutline,
-} from "react-icons/io5";
+import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
+
+import styled from "styled-components";
+
+// import UserInfoContext from "../context/UserInfoContext";
 
 import background from "./../assets/images/background.svg";
-import EletroStore from "./../assets/images/EletroStore2.svg";
+import eletroStore from "./../assets/images/EletroStore2.svg";
 
-export default function SignUpPage() {
+export default function SignInPage() {
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+
+  // TODO Set token and username on context api
+  // const { setToken, setName } = useContext(UserInfoContext);
+
+  function handleChange(e) {
+    switch (e.target.id) {
+      case "emailInput":
+        console.log(e.target.id);
+        setUserData({ ...userData, email: e.target.value });
+        break;
+
+      case "passwordInput":
+        console.log(e.target.id);
+        setUserData({ ...userData, password: e.target.value });
+        break;
+
+      default:
+        console.log("Unexpected input!");
+        break;
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    // TODO axios post sign-in
+  }
+
   return (
-    <SignUpContainer>
-      <img src={EletroStore} alt="Eletro Store Logo" />
+    <SignInComponent>
+      <img src={eletroStore} alt="Eletro Store Logo" />
       <StyledForm>
         <InputContainer>
-          <input type="text" name="name" placeholder="Nome" required />
-          <IoPersonOutline className="input-icon" />
-        </InputContainer>
-        <InputContainer>
-          <input type="email" name="email" placeholder="Email" required />
+          <input
+            onChange={handleChange}
+            type="email"
+            id="emailInput"
+            name="email"
+            placeholder="Email"
+            required
+          />
           <IoMailOutline className="input-icon" />
         </InputContainer>
-        <InputContainer>
-          <input type="password" name="password" placeholder="Senha" required />
-          <IoLockClosedOutline className="input-icon" />
-        </InputContainer>
+
         <InputContainer>
           <input
+            onChange={handleChange}
             type="password"
-            name="repeat_password"
-            placeholder="Confirmar senha"
+            id="passwordInput"
+            name="password"
+            placeholder="Senha"
             required
           />
           <IoLockClosedOutline className="input-icon" />
         </InputContainer>
-        <button type="submit">Cadastrar</button>
+
+        <button onSubmit={handleSubmit} type="submit">
+          Entrar
+        </button>
       </StyledForm>
       <p>
-        Já possui uma conta? <StyledLink to="/">Entre agora!</StyledLink>
+        Não possui uma conta?{" "}
+        <StyledLink to="/sign-up">Cadastre-se agora!</StyledLink>
       </p>
-    </SignUpContainer>
+    </SignInComponent>
   );
 }
 
-const SignUpContainer = styled.div`
+const SignInComponent = styled.div`
   width: 100%;
   height: 100vh;
   background-image: url(${background});
