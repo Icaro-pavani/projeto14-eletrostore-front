@@ -133,6 +133,10 @@ const GlobalStyle = createGlobalStyle`
     * {
         box-sizing: border-box;
     }
+
+    ::placeholder {
+    color: #bababa;
+  }
 `;
 
 export default GlobalStyle;
