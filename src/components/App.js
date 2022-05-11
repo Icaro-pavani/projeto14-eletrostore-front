@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import SignUpPage from "./SignUpPage";
 import SignInPage from "./SignInPage";
+import MainPage from "./MainPage";
 
 import UserInfoContext from "../context/UserInfoContext";
 import GlobalStyle from "../assets/theme/GlobalStyle";
@@ -21,6 +22,7 @@ export default function App() {
           <Routes>
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/" element={<SignInPage />} />
+            <Route path="/products" element={<MainPage />} />
           </Routes>
         </BrowserRouter>
       </UserInfoContext.Provider>
