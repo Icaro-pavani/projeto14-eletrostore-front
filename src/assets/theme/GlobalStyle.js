@@ -139,6 +139,7 @@ const GlobalStyle = createGlobalStyle`
         --black: #0C181F;
         --blue: #3296D4;
         --grey: #BABABA;
+        --disabled-background: #F5F5F5;
     }
 
     ::placeholder {
