@@ -81,7 +81,7 @@ const StyledForm = styled.form`
     border-radius: 10px;
     border: none;
     color: #fff;
-    background-color: #3296d4;
+    background-color: var(--blue);
     font-size: 16px;
     line-height: 20px;
     margin-bottom: 30px;
@@ -116,7 +116,7 @@ const InputContainer = styled.div`
   }
 
   .input-icon {
-    color: #bababa;
+    color: var(--grey);
     position: absolute;
     left: 8px;
     top: 10px;
@@ -125,7 +125,7 @@ const InputContainer = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  color: #3296d4;
+  color: var(--blue);
   font-weight: bold;
   text-decoration: none;
 
