@@ -140,6 +140,7 @@ const GlobalStyle = createGlobalStyle`
         --blue: #3296D4;
         --grey: #BABABA;
         --disabled-background: #F5F5F5;
+        --light-gray: #F3F3F3;
     }
 
     ::placeholder {
