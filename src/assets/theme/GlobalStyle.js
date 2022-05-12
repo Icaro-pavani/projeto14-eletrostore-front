@@ -129,6 +129,15 @@ const GlobalStyle = createGlobalStyle`
       border-spacing: 0;
     }
 
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--black);
+
+      /* font-family: 'DM Sans', sans-serif;
+      font-family: 'Montserrat', sans-serif; */
+    }
     
     * {
         box-sizing: border-box;
@@ -139,6 +148,7 @@ const GlobalStyle = createGlobalStyle`
         --black: #0C181F;
         --blue: #3296D4;
         --grey: #BABABA;
+        --dark-grey: #7F7F7F;
         --disabled-background: #F5F5F5;
     }
 

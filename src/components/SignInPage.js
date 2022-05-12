@@ -37,9 +37,9 @@ export default function SignInPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     signIn();
   }
+
   async function signIn() {
     const API_URL = "https://eletrostore-api.herokuapp.com/sign-in";
     // const API_URL = "http://localhost:5000/sign-in";
@@ -52,6 +52,8 @@ export default function SignInPage() {
 
       setToken(token);
       setUsername(username);
+
+      localStorage.setItem("token", token);
 
       navigate("/products");
     } catch (e) {
