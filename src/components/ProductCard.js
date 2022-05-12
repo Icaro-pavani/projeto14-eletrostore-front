@@ -28,6 +28,7 @@ const ProductCardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-radius: 15px;
 
   img {
     width: 100%;

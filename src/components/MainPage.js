@@ -6,7 +6,7 @@ import Header from "./Header";
 import ProductCard from "./ProductCard";
 
 export default function MainPage() {
-  const num = 2;
+  const num = 1;
   const product = [
     {
       name: `Smart TV LG AI ThinQ 50NANO75SPA LED 4K 50" 100V/240V`,
@@ -60,18 +60,20 @@ export default function MainPage() {
           <p>Televisões</p>
           <p>Celulares</p>
         </NavProducts>
-        {product.length > 0 ? (
-          product.map((prod) => (
-            <ProductCard
-              title={prod.name}
-              price={prod.price}
-              image={prod.images[0]}
-              id={prod._id}
-            />
-          ))
-        ) : (
-          <h5>Não há produtos</h5>
-        )}
+        <ProductsCardsContainer>
+          {product.length > 0 ? (
+            product.map((prod) => (
+              <ProductCard
+                title={prod.name}
+                price={prod.price}
+                image={prod.images[0]}
+                id={prod._id}
+              />
+            ))
+          ) : (
+            <h5>Não há produtos</h5>
+          )}
+        </ProductsCardsContainer>
       </ProductsContainer>
     </MainPageContainer>
   );
@@ -152,7 +154,7 @@ const NavProducts = styled.nav`
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  margin-left: 35px;
+  margin-left: 25px;
   margin-bottom: 20px;
   padding-top: 30px;
   overflow-x: auto;
@@ -175,4 +177,11 @@ const NavProducts = styled.nav`
     background-color: var(--blue);
     color: #fff;
   }
+`;
+
+const ProductsCardsContainer = styled.div`
+  width: 100%;
+  padding: 0 25px 30px;
+  display: flex;
+  flex-wrap: wrap;
 `;
