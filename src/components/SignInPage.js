@@ -1,10 +1,11 @@
 ﻿import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
 
 import styled from "styled-components";
+import axios from "axios";
 
-// import UserInfoContext from "../context/UserInfoContext";
+import UserInfoContext from "../context/UserInfoContext";
 
 import background from "./../assets/images/background.svg";
 import eletroStore from "./../assets/images/EletroStore2.svg";
@@ -15,18 +16,16 @@ export default function SignInPage() {
     password: "",
   });
 
-  // TODO Set token and username on context api
-  // const { setToken, setName } = useContext(UserInfoContext);
+  const { setToken, setUsername } = useContext(UserInfoContext);
+  const navigate = useNavigate();
 
   function handleChange(e) {
     switch (e.target.id) {
       case "emailInput":
-        console.log(e.target.id);
         setUserData({ ...userData, email: e.target.value });
         break;
 
       case "passwordInput":
-        console.log(e.target.id);
         setUserData({ ...userData, password: e.target.value });
         break;
 
@@ -39,13 +38,31 @@ export default function SignInPage() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    // TODO axios post sign-in
+    signIn();
+  }
+  async function signIn() {
+    const API_URL = "https://eletrostore-api.herokuapp.com/sign-in";
+    // const API_URL = "http://localhost:5000/sign-in";
+
+    try {
+      const response = await axios.post(API_URL, userData);
+      console.log("response: ", response.data);
+
+      const { username, token } = response.data;
+
+      setToken(token);
+      setUsername(username);
+
+      navigate("/products");
+    } catch (e) {
+      console.error("⚠ Failed request! Please, try again later...", e);
+    }
   }
 
   return (
     <SignInComponent>
       <img src={eletroStore} alt="Eletro Store Logo" />
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit}>
         <InputContainer>
           <input
             onChange={handleChange}
@@ -70,9 +87,7 @@ export default function SignInPage() {
           <IoLockClosedOutline className="input-icon" />
         </InputContainer>
 
-        <button onSubmit={handleSubmit} type="submit">
-          Entrar
-        </button>
+        <button type="submit">Entrar</button>
       </StyledForm>
       <p>
         Não possui uma conta?{" "}
@@ -123,13 +138,6 @@ const StyledForm = styled.form`
     font-size: 16px;
     line-height: 20px;
     margin-bottom: 30px;
-
-    transition: all 0.5s;
-
-    &:hover {
-      filter: brightness(1.5);
-      cursor: pointer;
-    }
   }
 `;
 
@@ -166,11 +174,4 @@ const StyledLink = styled(Link)`
   color: var(--blue);
   font-weight: bold;
   text-decoration: none;
-
-  transition: all 0.5s;
-
-  &:hover {
-    filter: brightness(1.5);
-    cursor: pointer;
-  }
 `;
