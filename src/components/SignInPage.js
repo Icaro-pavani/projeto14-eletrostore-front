@@ -16,14 +16,17 @@ export default function SignInPage() {
     password: "",
   });
 
-  const { setToken, setUsername } = useContext(UserInfoContext);
+  const { setToken, setUsername, setUserEmail } = useContext(UserInfoContext);
   const navigate = useNavigate();
 
   // check if there are any token stored on localStorage
   useEffect(() => {
-    const localToken = localStorage.getItem("token");
-    if (localToken) {
-      setToken(localToken);
+    const localLoginInfo = localStorage.getItem("loginInfo");
+    if (localLoginInfo) {
+      const { token, username, email } = JSON.parse(localLoginInfo);
+      setToken(token);
+      setUsername(username);
+      setUserEmail(email);
       navigate("/products");
     }
   }, []); //eslint-disable-line
@@ -59,8 +62,16 @@ export default function SignInPage() {
 
       setToken(token);
       setUsername(username);
+      setUserEmail(userData.email);
 
-      localStorage.setItem("token", token);
+      const loginObject = JSON.stringify({
+        username,
+        token,
+        email: userData.email,
+      });
+      localStorage.setItem("loginInfo", loginObject);
+
+      // localStorage.setItem("token", token);
 
       navigate("/products");
     } catch (e) {

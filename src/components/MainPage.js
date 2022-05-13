@@ -12,7 +12,7 @@ export default function MainPage() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
 
-  const { token, username } = useContext(UserInfoContext);
+  const { token, username, userEmail } = useContext(UserInfoContext);
 
   const API_URL = "https://eletrostore-api.herokuapp.com/products";
 
@@ -151,7 +151,7 @@ const SearchField = styled.div`
 const ProductsContainer = styled.div`
   width: 100%;
   background-color: var(--light-gray);
-  border-radius: 20px 20px 0 0;
+  border-radius: 20px;
 `;
 
 const NavProducts = styled.nav`
@@ -162,6 +162,14 @@ const NavProducts = styled.nav`
   margin-bottom: 20px;
   padding-top: 30px;
   overflow-x: auto;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Safari and Chrome */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   p {
     display: flex;

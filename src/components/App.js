@@ -13,8 +13,16 @@ import GlobalStyle from "../assets/theme/GlobalStyle";
 export default function App() {
   const [token, setToken] = useState("");
   const [username, setUsername] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
-  const value = { token, setToken, username, setUsername };
+  const value = {
+    token,
+    setToken,
+    username,
+    setUsername,
+    userEmail,
+    setUserEmail,
+  };
 
   return (
     <>
