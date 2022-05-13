@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from "react";
+﻿import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
 
@@ -19,6 +19,15 @@ export default function SignInPage() {
   const { setToken, setUsername } = useContext(UserInfoContext);
   const navigate = useNavigate();
 
+  // check if there are any token stored on localStorage
+  useEffect(() => {
+    const localToken = localStorage.getItem("token");
+    if (localToken) {
+      setToken(localToken);
+      navigate("/products");
+    }
+  }, []); //eslint-disable-line
+
   function handleChange(e) {
     switch (e.target.id) {
       case "emailInput":
@@ -37,21 +46,21 @@ export default function SignInPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     signIn();
   }
+
   async function signIn() {
     const API_URL = "https://eletrostore-api.herokuapp.com/sign-in";
     // const API_URL = "http://localhost:5000/sign-in";
 
     try {
       const response = await axios.post(API_URL, userData);
-      console.log("response: ", response.data);
-
       const { username, token } = response.data;
 
       setToken(token);
       setUsername(username);
+
+      localStorage.setItem("token", token);
 
       navigate("/products");
     } catch (e) {
