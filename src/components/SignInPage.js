@@ -16,14 +16,18 @@ export default function SignInPage() {
     password: "",
   });
 
-  const { setToken, setUsername } = useContext(UserInfoContext);
+  const { setToken, setUsername, setUserEmail } = useContext(UserInfoContext);
   const navigate = useNavigate();
 
   // check if there are any token stored on localStorage
   useEffect(() => {
     const localToken = localStorage.getItem("token");
-    if (localToken) {
+    const localUserInfo = localStorage.getItem("loginInfo");
+
+    if (localToken && localUserInfo) {
       setToken(localToken);
+      setUsername(JSON.parse(localUserInfo).username);
+      setUserEmail(JSON.parse(localUserInfo).email);
       navigate("/products");
     }
   }, []); //eslint-disable-line
@@ -59,12 +63,19 @@ export default function SignInPage() {
 
       setToken(token);
       setUsername(username);
+      setUserEmail(userData.email);
+
+      const loginObject = JSON.stringify({
+        username,
+        email: userData.email,
+      });
+      localStorage.setItem("loginInfo", loginObject);
 
       localStorage.setItem("token", token);
 
       navigate("/products");
     } catch (e) {
-      console.error("⚠ Failed request! Please, try again later...", e);
+      console.error(" Failed request! Please, try again later...", e);
     }
   }
 
