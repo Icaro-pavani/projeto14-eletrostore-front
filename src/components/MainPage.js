@@ -1,10 +1,12 @@
 import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { IoMenuOutline, IoCartOutline, IoSearchSharp } from "react-icons/io5";
 
 import Header from "./Header";
 import ProductCard from "./ProductCard";
+import Menu from "./Menu";
 import UserInfoContext from "../context/UserInfoContext";
 
 export default function MainPage() {
@@ -12,11 +14,22 @@ export default function MainPage() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
 
+  const navigate = useNavigate();
+
   const { token, username, userEmail } = useContext(UserInfoContext);
 
   const API_URL = "https://eletrostore-api.herokuapp.com/products";
 
   useEffect(() => {
+    function checkSession() {
+      if (!token) {
+        navigate("/");
+        alert("⚠ Session expired!");
+      }
+    }
+
+    checkSession();
+
     if (!category) {
       const promise = axios.get(API_URL, {
         headers: {
@@ -79,6 +92,7 @@ export default function MainPage() {
           )}
         </ProductsCardsContainer>
       </ProductsContainer>
+      <Menu name={username} email={userEmail} />
     </MainPageContainer>
   );
 }
