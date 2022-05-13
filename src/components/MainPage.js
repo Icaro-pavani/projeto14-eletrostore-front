@@ -13,8 +13,12 @@ export default function MainPage() {
   const [numCategory, setNumCategory] = useState(1);
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
+  const [filter, setFilter] = useState("");
+  const [active, setActive] = useState(false);
 
   const navigate = useNavigate();
+
+  console.log(filter);
 
   const { token, username, userEmail } = useContext(UserInfoContext);
 
@@ -36,7 +40,7 @@ export default function MainPage() {
           Authorization: `Bearer ${token}`,
         },
       });
-      promise.then(({ data }) => setProducts([...data]));
+      promise.then(updateProducts);
       promise.catch((error) => console.log(error.response.data));
     } else {
       const promise = axios.get(`${API_URL}?category=${category}`, {
@@ -44,10 +48,20 @@ export default function MainPage() {
           Authorization: `Bearer ${token}`,
         },
       });
-      promise.then(({ data }) => setProducts([...data]));
+      promise.then(updateProducts);
       promise.catch((error) => console.log(error.response.data));
     }
-  }, [category, token, navigate]);
+  }, [category, token, navigate, filter]);
+
+  function updateProducts({ data }) {
+    const productsData = [...data];
+    if (filter === "menor") {
+      productsData.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+    } else if (filter === "maior") {
+      productsData.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+    }
+    setProducts([...productsData]);
+  }
 
   function changeCategory(category, num) {
     setCategory(category);
@@ -59,7 +73,7 @@ export default function MainPage() {
       <PageTop>
         <Header />
         <NavBar>
-          <IoMenuOutline className="nav-icon" />
+          <IoMenuOutline className="nav-icon" onClick={() => setActive(true)} />
           <SearchField>
             <input type="text" placeholder="Buscar produto" />
             <IoSearchSharp className="search-icon" />
@@ -92,7 +106,13 @@ export default function MainPage() {
           )}
         </ProductsCardsContainer>
       </ProductsContainer>
-      <Menu name={username} email={userEmail} />
+      <Menu
+        name={username}
+        email={userEmail}
+        setFilter={setFilter}
+        setActive={setActive}
+        active={active}
+      />
     </MainPageContainer>
   );
 }

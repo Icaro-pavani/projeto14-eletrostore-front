@@ -23,11 +23,11 @@ export default function SignInPage() {
   useEffect(() => {
     const localToken = localStorage.getItem("token");
     const localUserInfo = localStorage.getItem("loginInfo");
-    const { username, email } = JSON.parse(localUserInfo);
+
     if (localToken && localUserInfo) {
       setToken(localToken);
-      setUsername(username);
-      setUserEmail(email);
+      setUsername(JSON.parse(localUserInfo).username);
+      setUserEmail(JSON.parse(localUserInfo).email);
       navigate("/products");
     }
   }, []); //eslint-disable-line

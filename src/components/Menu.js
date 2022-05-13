@@ -1,21 +1,35 @@
 import styled from "styled-components";
 import { IoIosArrowBack } from "react-icons/io";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import UserInfoContext from "../context/UserInfoContext";
 
-import { useState } from "react";
+export default function Menu({ name, email, setFilter, setActive, active }) {
+  const { setToken, setUsername, setUserEmail } = useContext(UserInfoContext);
 
-export default function Menu({ name, email }) {
-  const [filter, setFilter] = useState("");
+  const navigate = useNavigate();
+
+  function logout() {
+    localStorage.clear();
+    setToken("");
+    setUsername("");
+    setUserEmail("");
+    navigate("/");
+  }
 
   return (
-    <MenuContainer>
+    <MenuContainer active={active}>
       <Header>
-        <IoIosArrowBack className="menu-icon" />
-        <h1>Menu</h1>
+        <IoIosArrowBack
+          className="menu-icon"
+          onClick={() => setActive(false)}
+        />
+        <h1 className="menu">Menu</h1>
       </Header>
       <p className="name">{name}</p>
       <p className="email">{email}</p>
       <FilterContainer>
-        <h2>Filtros</h2>
+        <h2 className="filters">Filtros</h2>
         <form onChange={(event) => setFilter(event.target.value)}>
           <input type="radio" id="filter1" name="filter" value="menor" />
           <label htmlFor="filter1">Organizar por menor preço</label>
@@ -24,7 +38,7 @@ export default function Menu({ name, email }) {
           <label htmlFor="filter2">Organizar por maior preço</label>
         </form>
       </FilterContainer>
-      <h3>Sair</h3>
+      <h3 onClick={logout}>Sair</h3>
     </MenuContainer>
   );
 }
@@ -40,7 +54,7 @@ const MenuContainer = styled.div`
   left: 0;
   z-index: 2;
   background-color: #fff;
-  transform: translateX(-300px);
+  transform: translateX(${(props) => (props.active ? "0" : "-300px")});
 
   form {
     input {
@@ -94,7 +108,7 @@ const Header = styled.header`
   margin-bottom: 30px;
   padding: 0 24px;
 
-  h1 {
+  h1.menu {
     font-size: 16px;
     line-height: 20px;
     font-weight: bold;
@@ -111,7 +125,7 @@ const Header = styled.header`
 const FilterContainer = styled.div`
   width: 100%;
 
-  h2 {
+  h2.filters {
     margin: 0;
     height: 60px;
     display: flex;
