@@ -47,7 +47,7 @@ export default function MainPage() {
       promise.then(({ data }) => setProducts([...data]));
       promise.catch((error) => console.log(error.response.data));
     }
-  }, [category, token]);
+  }, [category, token, navigate]);
 
   function changeCategory(category, num) {
     setCategory(category);

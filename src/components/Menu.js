@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { IoIosArrowBack } from "react-icons/io";
 
+import { useState } from "react";
+
 export default function Menu({ name, email }) {
+  const [filter, setFilter] = useState("");
+
   return (
     <MenuContainer>
       <Header>
@@ -12,12 +16,23 @@ export default function Menu({ name, email }) {
       <p className="email">{email}</p>
       <FilterContainer>
         <h2>Filtros</h2>
+        <form onChange={(event) => setFilter(event.target.value)}>
+          <input type="radio" id="filter1" name="filter" value="menor" />
+          <label htmlFor="filter1">Organizar por menor preço</label>
+          <br />
+          <input type="radio" id="filter2" name="filter" value="maior" />
+          <label htmlFor="filter2">Organizar por maior preço</label>
+        </form>
       </FilterContainer>
+      <h3>Sair</h3>
     </MenuContainer>
   );
 }
 
 const MenuContainer = styled.div`
+  position: relative;
+  top: 0;
+  left: 0;
   width: 300px;
   height: calc(100vh - 50px);
   position: fixed;
@@ -25,14 +40,16 @@ const MenuContainer = styled.div`
   left: 0;
   z-index: 2;
   background-color: #fff;
+  transform: translateX(-300px);
 
-  h1 {
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: bold;
-    margin: 0;
-    width: 100%;
-    text-align: center;
+  form {
+    input {
+      font-size: 16px;
+      line-height: 20px;
+      font-family: "DM Sans", sans-serif;
+      margin-left: 24px;
+      margin-bottom: 15px;
+    }
   }
 
   .name {
@@ -51,6 +68,22 @@ const MenuContainer = styled.div`
     margin-bottom: 40px;
     margin-left: 24px;
   }
+
+  h3 {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    padding-left: 24px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 22px;
+    border-top: 1px solid var(--grey);
+    border-bottom: 1px solid var(--grey);
+  }
 `;
 
 const Header = styled.header`
@@ -60,6 +93,15 @@ const Header = styled.header`
   height: 55px;
   margin-bottom: 30px;
   padding: 0 24px;
+
+  h1 {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: bold;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+  }
 
   .menu-icon {
     font-size: 24px;
