@@ -1,13 +1,48 @@
-﻿import { Link } from "react-router-dom";
+﻿import { useEffect, useState, useContext } from "react";
+
+import { Link, useParams } from "react-router-dom";
 import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
 import { FiShoppingCart as CartIcon } from "react-icons/fi";
 import styled from "styled-components";
+import axios from "axios";
 
+import UserInfoContext from "../../context/UserInfoContext";
 import TabsComponent from "./TabsComponent";
 
 import eletroStore from "../../assets/images/eletrostore-no-bg.svg";
 
 export default function ProductPage() {
+  const [productData, setProductData] = useState({
+    name: "",
+    price: "",
+    description: "",
+    amount: 0,
+  });
+
+  const { token } = useContext(UserInfoContext);
+  const { productId } = useParams;
+
+  useEffect(() => getProduct(), []);
+
+  async function getProduct() {
+    // const API_URL = `https://eletrostore-api.herokuapp.com/products/${productId}`;
+    const API_URL = `http://localhost:5000/products/${productId}`;
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    try {
+      const product = await axios.get(API_URL, config);
+      console.log("product: ", product);
+      setProductData(product.data);
+    } catch (e) {
+      console.error("⚠ Couldn`t get product! ", e);
+    }
+  }
+
   return (
     <>
       <Header>
@@ -20,10 +55,12 @@ export default function ProductPage() {
           <ArrowIcon className="arrowIcon" />
           <CartIcon className="cartIcon" />
         </span>
+
         <h1>* PRODUCT NAME *</h1>
+
         <TabsComponent />
-        {/* TODO -> change button styles and add section*/}
         <AddToCartButton type="button">Adicionar ao carrinho</AddToCartButton>
+
         <section className="otherProducts"></section>
       </ProductPageComponent>
     </>

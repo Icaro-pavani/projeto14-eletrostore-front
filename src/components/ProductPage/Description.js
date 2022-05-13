@@ -37,5 +37,7 @@ const DescriptionComponent = styled.article`
     font-size: 0.875rem;
     line-height: 1.375rem;
     letter-spacing: 0.2px;
+
+    padding-right: 1rem;
   }
 `;

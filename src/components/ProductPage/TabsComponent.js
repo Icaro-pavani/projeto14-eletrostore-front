@@ -46,7 +46,7 @@ const StyledTabs = styled.div`
   min-height: 400px;
 
   margin: 0 auto 1.5rem;
-  padding: 2.5rem 1rem;
+  padding: 2.5rem 0 2.5rem 1rem;
   color: var(--black);
   border-radius: 2rem;
 
@@ -54,6 +54,8 @@ const StyledTabs = styled.div`
   ul.nav {
     width: 90%;
     margin: 0 auto 2rem;
+    padding-right: 1rem;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
