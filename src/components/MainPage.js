@@ -110,12 +110,12 @@ const PageTop = styled.div`
 `;
 
 const NavBar = styled.nav`
-  margin-top: 15px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 5%;
+  padding: 15px 5%;
+  background-color: #fff;
 
   .nav-icon {
     font-size: 24px;
