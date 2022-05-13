@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from "react";
+﻿import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
 
@@ -18,6 +18,15 @@ export default function SignInPage() {
 
   const { setToken, setUsername } = useContext(UserInfoContext);
   const navigate = useNavigate();
+
+  // check if there are any token stored on localStorage
+  useEffect(() => {
+    const localToken = localStorage.getItem("token");
+    if (localToken) {
+      setToken(localToken);
+      navigate("/products");
+    }
+  }, []); //eslint-disable-line
 
   function handleChange(e) {
     switch (e.target.id) {
@@ -46,8 +55,6 @@ export default function SignInPage() {
 
     try {
       const response = await axios.post(API_URL, userData);
-      console.log("response: ", response.data);
-
       const { username, token } = response.data;
 
       setToken(token);

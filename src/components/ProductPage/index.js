@@ -1,11 +1,12 @@
 ﻿import { useEffect, useState, useContext } from "react";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
 import { FiShoppingCart as CartIcon } from "react-icons/fi";
 import styled from "styled-components";
 import axios from "axios";
 
+import ProductDataContext from "../../context/ProductDataContext";
 import UserInfoContext from "../../context/UserInfoContext";
 import TabsComponent from "./TabsComponent";
 
@@ -17,16 +18,38 @@ export default function ProductPage() {
     price: "",
     description: "",
     amount: 0,
+    images: [],
+    categories: [],
   });
 
-  const { token } = useContext(UserInfoContext);
-  const { productId } = useParams;
+  const { token, setToken } = useContext(UserInfoContext);
+  const { productId } = useParams();
+  const navigate = useNavigate();
 
-  useEffect(() => getProduct(), []);
+  useEffect(() => {
+    const localToken = localStorage.getItem("token");
+
+    const setLocalToken = async () => {
+      await setToken(localToken);
+      checkSession();
+    };
+
+    if (localToken && !token) {
+      setLocalToken();
+    }
+  }, []); //eslint-disable-line
+  useEffect(() => getProduct(), []); // eslint-disable-line
+
+  function checkSession() {
+    if (!token) {
+      navigate("/");
+      alert("⚠ Session expired!");
+    }
+  }
 
   async function getProduct() {
-    // const API_URL = `https://eletrostore-api.herokuapp.com/products/${productId}`;
-    const API_URL = `http://localhost:5000/products/${productId}`;
+    const API_URL = `https://eletrostore-api.herokuapp.com/products/${productId}`;
+    // const API_URL = `http://localhost:5000/products/${productId}`;
 
     const config = {
       headers: {
@@ -56,9 +79,11 @@ export default function ProductPage() {
           <CartIcon className="cartIcon" />
         </span>
 
-        <h1>* PRODUCT NAME *</h1>
+        <h1>{productData.name ? productData.name.toUpperCase() : ""}</h1>
 
-        <TabsComponent />
+        <ProductDataContext.Provider value={{ productData }}>
+          <TabsComponent />
+        </ProductDataContext.Provider>
         <AddToCartButton type="button">Adicionar ao carrinho</AddToCartButton>
 
         <section className="otherProducts"></section>

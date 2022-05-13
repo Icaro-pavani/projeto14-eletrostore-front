@@ -1,23 +1,17 @@
-﻿import styled from "styled-components";
+﻿import { useContext } from "react";
+import styled from "styled-components";
+
+import ProductDataContext from "../../context/ProductDataContext";
 
 export default function Description() {
+  const { productData } = useContext(ProductDataContext);
+
+  console.log("productData: ", productData);
+
   return (
     <DescriptionComponent>
       <h2>Descrição do Produto</h2>
-      <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit
-        aperiam laboriosam esse explicabo atque maiores quod, voluptates
-        corporis eligendi nam quas, facere aliquid sunt? Soluta tenetur quis
-        odio dignissimos! Voluptates id dolorum possimus fugiat asperiores
-        aspernatur fugit? Quod alias earum architecto, rem laboriosam officia
-        eligendi vitae minus voluptatibus fugit sunt a aliquam, magnam
-        temporibus fuga! Vel accusantium et error reprehenderit asperiores sunt
-        accusamus laboriosam quidem magni rem magnam obcaecati in praesentium
-        numquam dolorem quibusdam veniam sapiente excepturi, impedit ea? Saepe
-        doloremque commodi atque magni impedit accusamus voluptas, neque a
-        obcaecati voluptatum dicta autem, dolorum eum, tenetur explicabo
-        architecto reprehenderit rerum.
-      </p>
+      <p>{productData ? productData.description : ""}</p>
     </DescriptionComponent>
   );
 }

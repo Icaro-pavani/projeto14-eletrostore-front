@@ -1,34 +1,38 @@
-﻿import styled from "styled-components";
+﻿import { useContext } from "react";
+import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
+
+import ProductDataContext from "../../context/ProductDataContext";
 
 export default function Product() {
+  const { productData } = useContext(ProductDataContext);
+
+  // TODO Set default currency format
+
   return (
     <>
       <ProductImagesComponent>
-        {/* TODO -> map das imagens do produto */}
-        <img
-          src="https://source.unsplash.com/random"
-          alt="random pic from unsplash"
-        />
-        <img
-          src="https://source.unsplash.com/random"
-          alt="random pic from unsplash"
-        />
-        <img
-          src="https://source.unsplash.com/random"
-          alt="random pic from unsplash"
-        />
-        <img
-          src="https://source.unsplash.com/random"
-          alt="random pic from unsplash"
-        />
+        {productData
+          ? productData.images.map(({ src, alt }) => {
+              return <img src={src} alt={alt} key={uuidv4()} />;
+            })
+          : []}
       </ProductImagesComponent>
       <Price>
-        <p>R$ 350,00</p>
+        <p>R$ {productData ? productData.price : "0,00"}</p>
         <small>à vista</small>
       </Price>
       <FowardPrice>
         <small>ou em até 12x de</small>
-        <p>R$ 30,00</p>
+        <p>
+          R${" "}
+          {productData
+            ? (parseInt(productData.price) / 12)
+                .toFixed(2)
+                .toString()
+                .replace(".", ",")
+            : []}
+        </p>
       </FowardPrice>
     </>
   );
