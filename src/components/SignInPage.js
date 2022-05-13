@@ -21,10 +21,11 @@ export default function SignInPage() {
 
   // check if there are any token stored on localStorage
   useEffect(() => {
-    const localLoginInfo = localStorage.getItem("loginInfo");
-    if (localLoginInfo) {
-      const { token, username, email } = JSON.parse(localLoginInfo);
-      setToken(token);
+    const localToken = localStorage.getItem("token");
+    const localUserInfo = localStorage.getItem("loginInfo");
+    const { username, email } = JSON.parse(localUserInfo);
+    if (localToken && localUserInfo) {
+      setToken(localToken);
       setUsername(username);
       setUserEmail(email);
       navigate("/products");
@@ -66,12 +67,11 @@ export default function SignInPage() {
 
       const loginObject = JSON.stringify({
         username,
-        token,
         email: userData.email,
       });
       localStorage.setItem("loginInfo", loginObject);
 
-      // localStorage.setItem("token", token);
+      localStorage.setItem("token", token);
 
       navigate("/products");
     } catch (e) {
