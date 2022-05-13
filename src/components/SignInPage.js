@@ -55,7 +55,7 @@ export default function SignInPage() {
 
       navigate("/products");
     } catch (e) {
-      console.error("⚠ Failed request! Please, try again later...", e);
+      console.error(" Failed request! Please, try again later...", e);
     }
   }
 
