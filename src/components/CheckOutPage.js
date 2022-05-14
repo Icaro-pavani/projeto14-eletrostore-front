@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { IoIosArrowBack } from "react-icons/io";
+import { useState } from "react";
 
 import Header from "./Header";
 import ProductLine from "./ProductLine";
@@ -28,10 +29,18 @@ const products = [
 ];
 
 export default function CheckOutPage() {
+  const [cep, setCep] = useState("");
   let total = 0;
   products.forEach((product) => {
     total += parseFloat(product.price.replace(",", "."));
   });
+
+  function cepMask(value) {
+    return value
+      .replace(/\D/g, "")
+      .replace(/(\d{5})(\d{3})/, "$1-$2")
+      .replace(/(-\d{3})\d+?$/, "$1");
+  }
   return (
     <CheckOutContainer>
       <Header />
@@ -43,8 +52,22 @@ export default function CheckOutPage() {
         {products.map((product, index) => (
           <ProductLine key={index} product={product} />
         ))}
-        <p className="total">Total: R$ {total.toString().replace(".", ",")}</p>
+        <p className="total">Total: R$ {total.toFixed(2).replace(".", ",")}</p>
       </ProductsList>
+      <h2>Endereço de entrega:</h2>
+      <CEP>
+        <input
+          type="text"
+          name="cep"
+          onChange={(event) => {
+            setCep(cepMask(event.target.value));
+          }}
+          placeholder="Digite seu CEP"
+          value={cep}
+          required
+        />
+        <button type="submit">OK</button>
+      </CEP>
     </CheckOutContainer>
   );
 }
@@ -87,4 +110,8 @@ const ProductsList = styled.ul`
     font-weight: bold;
     line-height: 20px;
   }
+`;
+
+const CEP = styled.form`
+  width: 100%;
 `;
