@@ -9,6 +9,7 @@ import ProductPage from "./ProductPage";
 
 import UserInfoContext from "../context/UserInfoContext";
 import GlobalStyle from "../assets/theme/GlobalStyle";
+import CheckOutPage from "./CheckOutPage";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -34,6 +35,7 @@ export default function App() {
             <Route path="/" element={<SignInPage />} />
             <Route path="/products" element={<MainPage />} />
             <Route path="/products/:productId" element={<ProductPage />} />
+            <Route path="/checkout" element={<CheckOutPage />} />
           </Routes>
         </BrowserRouter>
       </UserInfoContext.Provider>
