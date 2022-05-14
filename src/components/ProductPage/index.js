@@ -11,8 +11,10 @@ import UserInfoContext from "../../context/UserInfoContext";
 import TabsComponent from "./TabsComponent";
 
 import eletroStore from "../../assets/images/eletrostore-no-bg.svg";
+import ProductCard from "../ProductCard";
 
 export default function ProductPage() {
+  const [products, setProducts] = useState([]);
   const [productData, setProductData] = useState({
     name: "",
     price: "",
@@ -48,8 +50,8 @@ export default function ProductPage() {
   }
 
   async function getProduct() {
-    const API_URL = `https://eletrostore-api.herokuapp.com/products/${productId}`;
-    // const API_URL = `http://localhost:5000/products/${productId}`;
+    const PRODUCT_URL = `https://eletrostore-api.herokuapp.com/products/${productId}`;
+    const PRODUCTS_URL = `https://eletrostore-api.herokuapp.com/products/`;
 
     const config = {
       headers: {
@@ -58,11 +60,17 @@ export default function ProductPage() {
     };
 
     try {
-      const product = await axios.get(API_URL, config);
+      // Fetch main product data
+      const product = await axios.get(PRODUCT_URL, config);
       console.log("product: ", product);
       setProductData(product.data);
+
+      // Fetch suggestion products data
+      const sugestionProducts = await axios.get(PRODUCTS_URL, config);
+      console.log("sugestionProducts: ", sugestionProducts);
+      setProducts(sugestionProducts.data);
     } catch (e) {
-      console.error("⚠ Couldn`t get product! ", e);
+      console.error("⚠ Couldn`t fetch data! ", e);
     }
   }
 
@@ -86,7 +94,29 @@ export default function ProductPage() {
         </ProductDataContext.Provider>
         <AddToCartButton type="button">Adicionar ao carrinho</AddToCartButton>
 
-        <section className="otherProducts"></section>
+        <ProductSugestions>
+          <span>
+            <p>Produtos em alta</p>
+            <Link to="/products">veja mais</Link>
+          </span>
+          <div className="sugestions">
+            {products ? (
+              products.map(({ name, price, images, _id }) => {
+                return (
+                  <ProductCard
+                    title={name.slice(0, 18) + "..."}
+                    price={price}
+                    image={images[0]}
+                    id={_id}
+                    key={_id}
+                  />
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </div>
+        </ProductSugestions>
       </ProductPageComponent>
     </>
   );
@@ -164,4 +194,47 @@ const AddToCartButton = styled.button`
   background-color: var(--blue);
 
   cursor: pointer;
+`;
+
+const ProductSugestions = styled.section`
+  width: 100%;
+  min-height: 16.57rem;
+
+  padding-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
+
+  background-color: var(--light-gray);
+
+  .sugestions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+
+    margin-top: 1.5rem;
+    padding-left: 1.5rem;
+
+    white-space: nowrap;
+    overflow-x: scroll;
+
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* Safari and Chrome */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 1.5rem 1.5rem 0;
+
+    a {
+      color: var(--dark-grey);
+      font-size: 0.875rem;
+    }
+  }
 `;
