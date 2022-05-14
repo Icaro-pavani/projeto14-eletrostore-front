@@ -7,8 +7,6 @@ import ProductDataContext from "../../context/ProductDataContext";
 export default function Product() {
   const { productData } = useContext(ProductDataContext);
 
-  // TODO Set default currency format
-
   return (
     <>
       <ProductImagesComponent>
@@ -96,7 +94,7 @@ const FowardPrice = styled.span`
 `;
 
 const ProductImagesComponent = styled.article`
-  height: 24.44rem;
+  height: 25.3rem;
   width: 100%;
 
   margin: 1.875rem 0;
@@ -105,6 +103,8 @@ const ProductImagesComponent = styled.article`
   align-items: center;
 
   overflow-x: scroll;
+
+  background-color: var(--light-gray);
 
   /* Firefox */
   scrollbar-width: none;
