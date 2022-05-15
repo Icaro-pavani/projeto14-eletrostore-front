@@ -18,8 +18,6 @@ export default function MainPage() {
 
   const navigate = useNavigate();
 
-  console.log(filter);
-
   const { token, username, userEmail } = useContext(UserInfoContext);
 
   const API_URL = "https://eletrostore-api.herokuapp.com/products";

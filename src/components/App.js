@@ -18,15 +18,7 @@ export default function App() {
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [cart, setCart] = useState([]);
-  const [cartQuantity, setCartQuantity] = useState([
-    {
-      name: "",
-      price: "",
-      quantity: 0,
-      image: { src: "", alt: "" },
-      productId: "",
-    },
-  ]);
+  const [cartQuantity, setCartQuantity] = useState([]);
 
   const value = {
     token,

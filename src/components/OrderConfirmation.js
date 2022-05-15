@@ -7,10 +7,10 @@ import ProductLine from "./ProductLine";
 export default function OrderConfirmation() {
   const location = useLocation();
 
-  const { address, payment, products } = location.state;
+  const { address, payment, cartQuantity } = location.state;
 
   let total = 0;
-  products.forEach((product) => {
+  cartQuantity.forEach((product) => {
     total += parseFloat(product.price.replace(",", "."));
   });
 
@@ -21,7 +21,7 @@ export default function OrderConfirmation() {
         <h1 className="menu">Pedido Concluído</h1>
       </Top>
       <ProductsList>
-        {products.map((product, index) => (
+        {cartQuantity.map((product, index) => (
           <ProductLine key={index} product={product} />
         ))}
         <p className="total">Total: R$ {total.toFixed(2).replace(".", ",")}</p>

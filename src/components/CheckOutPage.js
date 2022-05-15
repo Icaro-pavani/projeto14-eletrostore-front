@@ -1,44 +1,27 @@
 import styled from "styled-components";
 import { IoIosArrowBack } from "react-icons/io";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 
 import Header from "./Header";
 import ProductLine from "./ProductLine";
 import { useNavigate } from "react-router-dom";
-
-const products = [
-  {
-    name: "Notebook Gamer Acer Nitro 5 Intel Core i5-10300H 8GB (GeForce GTX1650 4GB) 512GB SSD W11 15,6” Preto AN515-55-59T4",
-    price: "5409,84",
-    quantity: 1,
-    image: {
-      src: "https://http2.mlstatic.com/D_NQ_NP_976051-MLA43117842632_082020-O.webp",
-      alt: "Acer Nitro 5 image 1",
-    },
-    productId: "627b219273d39b45b87c012f",
-  },
-  {
-    name: 'Notebook Lenovo IdeaPad 15IML05 platinum gray 15.6", Intel Core i3 10110U 4GB de RAM 256GB SSD, Intel UHD Graphics 620 1366x768px Windows 11 Home',
-    price: "2699,00",
-    quantity: 2,
-    image: {
-      src: "https://http2.mlstatic.com/D_NQ_NP_820566-MLA48452096150_122021-O.webp",
-      alt: "Lenovo IdeaPad image 1",
-    },
-    productId: "627c21a6c7abb5be5a91aef5",
-  },
-];
+import UserInfoContext from "../context/UserInfoContext";
 
 export default function CheckOutPage() {
   const [cep, setCep] = useState("");
   const [address, setAddress] = useState({});
   const [payment, setPayment] = useState("");
+  const { cartQuantity, setCart, setCartQuantity, token } =
+    useContext(UserInfoContext);
+
+  const API_URL_ORDERS = "https://eletrostore-api.herokuapp.com/orders";
+  // const API_URL_ORDERS = "http://localhost:5000/orders";
 
   const navigate = useNavigate();
 
   let total = 0;
-  products.forEach((product) => {
+  cartQuantity.forEach((product) => {
     total += parseFloat(product.price.replace(",", "."));
   });
 
@@ -73,8 +56,28 @@ export default function CheckOutPage() {
   }
 
   function sendOrderConfirmation() {
-    console.log({ products, address, payment });
-    navigate("/order-confirmation", { state: { products, address, payment } });
+    console.log({ cartQuantity, address, payment });
+    const promise = axios.post(
+      API_URL_ORDERS,
+      {
+        products: cartQuantity,
+        address,
+        payment,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    promise.then((response) => {
+      setCart([]);
+      setCartQuantity([]);
+      navigate("/order-confirmation", {
+        state: { cartQuantity, address, payment },
+      });
+    });
+    promise.catch((error) => alert(error.response.data));
   }
 
   return (
@@ -85,7 +88,7 @@ export default function CheckOutPage() {
         <h1 className="menu">Finalizar Compra</h1>
       </Top>
       <ProductsList>
-        {products.map((product, index) => (
+        {cartQuantity.map((product, index) => (
           <ProductLine key={index} product={product} />
         ))}
         <p className="total">Total: R$ {total.toFixed(2).replace(".", ",")}</p>

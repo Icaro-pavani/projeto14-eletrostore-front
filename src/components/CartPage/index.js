@@ -45,15 +45,7 @@ export default function Cart() {
 
   function clearCart() {
     setCart([]);
-    setCartQuantity([
-      {
-        name: "",
-        price: "",
-        quantity: 0,
-        image: { src: "", alt: "" },
-        productId: "",
-      },
-    ]);
+    setCartQuantity([]);
   }
 
   return (
