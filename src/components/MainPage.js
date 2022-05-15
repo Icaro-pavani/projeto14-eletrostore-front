@@ -78,7 +78,10 @@ export default function MainPage() {
             <input type="text" placeholder="Buscar produto" />
             <IoSearchSharp className="search-icon" />
           </SearchField>
-          <IoCartOutline className="nav-icon" />
+          <IoCartOutline
+            onClick={() => navigate("/cart")}
+            className="nav-icon"
+          />
         </NavBar>
       </PageTop>
       <h2>Olá, {username}</h2>

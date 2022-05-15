@@ -9,8 +9,8 @@ import axios from "axios";
 import ProductDataContext from "../../context/ProductDataContext";
 import UserInfoContext from "../../context/UserInfoContext";
 import TabsComponent from "./TabsComponent";
+import Header from "../Header";
 
-import eletroStore from "../../assets/images/eletrostore-no-bg.svg";
 import ProductCard from "../ProductCard";
 
 export default function ProductPage() {
@@ -24,7 +24,8 @@ export default function ProductPage() {
     categories: [],
   });
 
-  const { token, setToken } = useContext(UserInfoContext);
+  const { token, setToken, cart, setCart, cartQuantity, setCartQuantity } =
+    useContext(UserInfoContext);
   const { productId } = useParams();
   const navigate = useNavigate();
 
@@ -40,7 +41,10 @@ export default function ProductPage() {
       setLocalToken();
     }
   }, []); //eslint-disable-line
-  useEffect(() => getProduct(), []); // eslint-disable-line
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getProduct();
+  }, [window.location.pathname]); // eslint-disable-line
 
   function checkSession() {
     if (!token) {
@@ -62,29 +66,41 @@ export default function ProductPage() {
     try {
       // Fetch main product data
       const product = await axios.get(PRODUCT_URL, config);
-      console.log("product: ", product);
       setProductData(product.data);
 
       // Fetch suggestion products data
       const sugestionProducts = await axios.get(PRODUCTS_URL, config);
-      console.log("sugestionProducts: ", sugestionProducts);
       setProducts(sugestionProducts.data);
     } catch (e) {
       console.error("⚠ Couldn`t fetch data! ", e);
     }
   }
 
+  function addToCart() {
+    setCart([...cart, productData]);
+    setCartQuantity([
+      ...cartQuantity,
+      {
+        name: productData.name,
+        price: productData.price,
+        quantity: 1,
+        image: {
+          src: productData.images[0].src,
+          alt: productData.images[0].alt,
+        },
+        productId: productId,
+      },
+    ]);
+    navigate("/cart");
+  }
+
   return (
     <>
-      <Header>
-        <HomeLink to="/">
-          <img src={eletroStore} alt="EletroStore logo" />
-        </HomeLink>
-      </Header>
+      <Header />
       <ProductPageComponent>
         <span className="topBar">
-          <ArrowIcon className="arrowIcon" />
-          <CartIcon className="cartIcon" />
+          <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
+          <CartIcon onClick={() => navigate("/cart")} className="cartIcon" />
         </span>
 
         <h1>{productData.name ? productData.name.toUpperCase() : ""}</h1>
@@ -92,7 +108,9 @@ export default function ProductPage() {
         <ProductDataContext.Provider value={{ productData }}>
           <TabsComponent />
         </ProductDataContext.Provider>
-        <AddToCartButton type="button">Adicionar ao carrinho</AddToCartButton>
+        <AddToCartButton onClick={addToCart} type="button">
+          Adicionar ao carrinho
+        </AddToCartButton>
 
         <ProductSugestions>
           <span>
@@ -101,17 +119,19 @@ export default function ProductPage() {
           </span>
           <div className="sugestions">
             {products ? (
-              products.map(({ name, price, images, _id }) => {
-                return (
-                  <ProductCard
-                    title={name.slice(0, 18) + "..."}
-                    price={price}
-                    image={images[0]}
-                    id={_id}
-                    key={_id}
-                  />
-                );
-              })
+              products
+                .map(({ name, price, images, _id }) => {
+                  return (
+                    <ProductCard
+                      title={name.slice(0, 18) + "..."}
+                      price={price}
+                      image={images[0]}
+                      id={_id}
+                      key={_id}
+                    />
+                  );
+                })
+                .sort((a, b) => Math.random() - 0.5)
             ) : (
               <></>
             )}
@@ -121,17 +141,6 @@ export default function ProductPage() {
     </>
   );
 }
-
-const Header = styled.header`
-  height: 2.75rem;
-  width: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: var(--dark-blue);
-`;
 
 const ProductPageComponent = styled.section`
   background-color: #fff;
@@ -151,10 +160,14 @@ const ProductPageComponent = styled.section`
     justify-content: space-between;
     padding: 0 1.5rem;
 
+    margin-top: 0.5rem;
+
     .arrowIcon,
     .cartIcon {
       font-size: 1.5rem;
       color: var(--black);
+
+      cursor: pointer;
     }
   }
 
@@ -167,16 +180,6 @@ const ProductPageComponent = styled.section`
     justify-self: center;
 
     margin: 1.75rem 1rem 0;
-  }
-`;
-
-const HomeLink = styled(Link)`
-  text-decoration: none;
-  outline: none;
-
-  img {
-    height: 2.5rem;
-    background-repeat: no-repeat;
   }
 `;
 

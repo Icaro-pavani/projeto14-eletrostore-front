@@ -97,7 +97,7 @@ const ProductImagesComponent = styled.article`
   height: 25.3rem;
   width: 100%;
 
-  margin: 1.875rem 0;
+  margin: 1.875rem 0 3rem;
 
   display: flex;
   align-items: center;
