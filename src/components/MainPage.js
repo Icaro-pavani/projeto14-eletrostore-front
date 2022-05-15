@@ -18,8 +18,6 @@ export default function MainPage() {
 
   const navigate = useNavigate();
 
-  console.log(filter);
-
   const { token, username, userEmail } = useContext(UserInfoContext);
 
   const API_URL = "https://eletrostore-api.herokuapp.com/products";
@@ -33,6 +31,16 @@ export default function MainPage() {
     }
 
     checkSession();
+
+    function updateProducts({ data }) {
+      const productsData = [...data];
+      if (filter === "menor") {
+        productsData.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      } else if (filter === "maior") {
+        productsData.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      }
+      setProducts([...productsData]);
+    }
 
     if (!category) {
       const promise = axios.get(API_URL, {
@@ -52,16 +60,6 @@ export default function MainPage() {
       promise.catch((error) => console.log(error.response.data));
     }
   }, [category, token, navigate, filter]);
-
-  function updateProducts({ data }) {
-    const productsData = [...data];
-    if (filter === "menor") {
-      productsData.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-    } else if (filter === "maior") {
-      productsData.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-    }
-    setProducts([...productsData]);
-  }
 
   function changeCategory(category, num) {
     setCategory(category);
