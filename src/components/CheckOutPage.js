@@ -81,7 +81,7 @@ export default function CheckOutPage() {
     <CheckOutContainer>
       <Header />
       <Top>
-        <IoIosArrowBack className="menu-icon" />
+        <IoIosArrowBack className="menu-icon" onClick={() => navigate(-1)} />
         <h1 className="menu">Finalizar Compra</h1>
       </Top>
       <ProductsList>
