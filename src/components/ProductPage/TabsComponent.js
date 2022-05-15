@@ -46,7 +46,7 @@ const StyledTabs = styled.div`
   min-height: 400px;
 
   margin: 0 auto 1.5rem;
-  padding: 2.5rem 0 2.5rem 1rem;
+  padding: 2.5rem 0 2.5rem 1.5rem;
   color: var(--black);
   border-radius: 2rem;
 
