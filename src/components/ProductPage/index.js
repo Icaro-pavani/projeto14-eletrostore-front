@@ -73,8 +73,8 @@ export default function ProductPage() {
     }
   }
 
-  async function addToCart() {
-    await setCart([...cart, productData]);
+  function addToCart() {
+    setCart([...cart, productData]);
     setCartQuantity([
       ...cartQuantity,
       {

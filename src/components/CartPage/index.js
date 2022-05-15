@@ -1,17 +1,17 @@
 ﻿import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { FiTrash2 as TrashIcon } from "react-icons/fi";
 import {
   IoIosArrowBack as ArrowIcon,
   IoIosArrowForward as FowardArrowIcon,
 } from "react-icons/io";
-import { FiTrash2 as TrashIcon } from "react-icons/fi";
-import { v4 as uuidv4 } from "uuid";
 
 import styled from "styled-components";
 
 import UserInfoContext from "../../context/UserInfoContext";
-import Header from "../Header";
 import CartProduct from "./CartProduct";
+import Header from "../Header";
 
 export default function Cart() {
   const [sum, setSum] = useState(0);
@@ -37,6 +37,11 @@ export default function Cart() {
     return total;
   }
 
+  function emptyCart() {
+    alert("Oh no, your cart is empty! Let's change that...");
+    navigate("/products");
+  }
+
   return (
     <>
       <Header />
@@ -47,21 +52,19 @@ export default function Cart() {
         </span>
 
         <div className="cartProducts">
-          {cart ? (
-            cart.map(({ name, price, amount, images }) => {
-              return (
-                <CartProduct
-                  key={uuidv4()}
-                  title={name}
-                  price={price}
-                  amount={amount}
-                  image={images[0]}
-                />
-              );
-            })
-          ) : (
-            <></>
-          )}
+          {cart.length > 0
+            ? cart.map(({ name, price, amount, images }) => {
+                return (
+                  <CartProduct
+                    key={uuidv4()}
+                    title={name}
+                    price={price}
+                    amount={amount}
+                    image={images[0]}
+                  />
+                );
+              })
+            : emptyCart()}
         </div>
 
         <footer>
@@ -72,7 +75,7 @@ export default function Cart() {
             </small>
             <p>R$ {sum}</p>
           </span>
-          <FinishButton type="button">
+          <FinishButton onClick={() => navigate("/checkout")} type="button">
             Finalizar
             <FowardArrowIcon />
           </FinishButton>

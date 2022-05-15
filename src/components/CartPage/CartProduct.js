@@ -1,4 +1,4 @@
-﻿import { useState, useContext } from "react";
+﻿import { useContext } from "react";
 import {
   FiTrash2 as TrashIcon,
   FiMinusSquare,
@@ -10,20 +10,38 @@ import styled from "styled-components";
 import UserInfoContext from "../../context/UserInfoContext";
 
 export default function CartProduct({ image, title, price }) {
-  const { cartQuantity, setCartQuantity } = useContext(UserInfoContext);
+  const { cart, setCart, cartQuantity, setCartQuantity } =
+    useContext(UserInfoContext);
 
-  function handlePlusAmount() {
+  function handleAmountChange(signal) {
     const product = cartQuantity.find(({ name }) => name === title);
     const arr = cartQuantity.filter((prod) => prod.name !== product.name);
 
-    setCartQuantity([...arr, { ...product, quantity: product.quantity + 1 }]);
+    signal === "+"
+      ? setCartQuantity([
+          ...arr,
+          { ...product, quantity: product.quantity + 1 },
+        ])
+      : setCartQuantity([
+          ...arr,
+          { ...product, quantity: product.quantity - 1 },
+        ]);
   }
 
-  function handleMinusAmount() {
+  function removeCartProduct() {
     const product = cartQuantity.find(({ name }) => name === title);
     const arr = cartQuantity.filter((prod) => prod.name !== product.name);
 
-    setCartQuantity([...arr, { ...product, quantity: product.quantity - 1 }]);
+    setCartQuantity([...arr]);
+
+    const cartArr = cart.filter((prod) => prod.name !== product.name);
+
+    setCart([...cartArr]);
+  }
+
+  function renderAmount() {
+    const product = cartQuantity.find(({ name }) => name === title);
+    return product.quantity;
   }
 
   return (
@@ -33,11 +51,11 @@ export default function CartProduct({ image, title, price }) {
         <p className="title">{title.slice(0, 35) + "..."}</p>
         <p className="price">R$ {price}</p>
         <span>
-          <MinusIcon onClick={handleMinusAmount} />
-          <p>{cartQuantity.find(({ name }) => name === title).quantity}</p>
-          <PlusIcon onClick={handlePlusAmount} />
+          <MinusIcon onClick={() => handleAmountChange("-")} />
+          <p>{renderAmount()}</p>
+          <PlusIcon onClick={() => handleAmountChange("+")} />
         </span>
-        <TrashIcon className="trashIcon" />
+        <TrashIcon onClick={removeCartProduct} className="trashIcon" />
       </StyledProductInfo>
     </CartProductComponent>
   );
