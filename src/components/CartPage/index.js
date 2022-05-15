@@ -16,7 +16,8 @@ import Header from "../Header";
 export default function Cart() {
   const [sum, setSum] = useState(0);
 
-  const { cart, cartQuantity } = useContext(UserInfoContext);
+  const { cart, setCart, cartQuantity, setCartQuantity } =
+    useContext(UserInfoContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,13 +43,26 @@ export default function Cart() {
     navigate("/products");
   }
 
+  function clearCart() {
+    setCart([]);
+    setCartQuantity([
+      {
+        name: "",
+        price: "",
+        quantity: 0,
+        image: { src: "", alt: "" },
+        productId: "",
+      },
+    ]);
+  }
+
   return (
     <>
       <Header />
       <CartComponent>
         <span className="topBar">
           <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
-          <TrashIcon className="trashIcon" />
+          <TrashIcon onClick={clearCart} className="trashIcon" />
         </span>
 
         <div className="cartProducts">

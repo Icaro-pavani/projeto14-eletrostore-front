@@ -41,7 +41,10 @@ export default function ProductPage() {
       setLocalToken();
     }
   }, []); //eslint-disable-line
-  useEffect(() => getProduct(), [window.location.pathname]); // eslint-disable-line
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    getProduct();
+  }, [window.location.pathname]); // eslint-disable-line
 
   function checkSession() {
     if (!token) {
@@ -97,7 +100,7 @@ export default function ProductPage() {
       <ProductPageComponent>
         <span className="topBar">
           <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
-          <CartIcon className="cartIcon" />
+          <CartIcon onClick={() => navigate("/cart")} className="cartIcon" />
         </span>
 
         <h1>{productData.name ? productData.name.toUpperCase() : ""}</h1>
