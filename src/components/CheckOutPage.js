@@ -79,100 +79,111 @@ export default function CheckOutPage() {
   }
 
   return (
-    <CheckOutContainer>
+    <>
       <Header />
       <Top>
         <IoIosArrowBack className="menu-icon" onClick={() => navigate(-1)} />
         <h1 className="menu">Finalizar Compra</h1>
       </Top>
-      <ProductsList>
-        {cartQuantity.map((product, index) => (
-          <ProductLine key={index} product={product} />
-        ))}
-        <p className="total">Total: R$ {total.toFixed(2).replace(".", ",")}</p>
-      </ProductsList>
-      {address.logradouro ? (
-        <>
-          <h2>Endereço de entrega:</h2>
-          <Adress onChange={updateAddress}>
-            <p>{address.logradouro + ","}</p>
-            <StyledInput>
-              <input type="text" name="numero" placeholder="Número" required />
-              <p>, </p>
+      <CheckOutContainer>
+        <ProductsList>
+          {cartQuantity.map((product, index) => (
+            <ProductLine key={index} product={product} />
+          ))}
+          <p className="total">
+            Total: R$ {total.toFixed(2).replace(".", ",")}
+          </p>
+        </ProductsList>
+        {address.logradouro ? (
+          <>
+            <h2>Endereço de entrega:</h2>
+            <Adress onChange={updateAddress}>
+              <p>{address.logradouro + ","}</p>
+              <StyledInput>
+                <input
+                  type="text"
+                  name="numero"
+                  placeholder="Número"
+                  required
+                />
+                <p>, </p>
+                <input
+                  type="text"
+                  name="complemento"
+                  placeholder="Complemento"
+                  required
+                />
+              </StyledInput>
+              <p>Bairro: {address.bairro}</p>
+              <p>Cidade: {address.localidade + "/" + address.uf}</p>
+            </Adress>
+            <h2>Forma de pagamento:</h2>
+            <Payment onChange={(event) => setPayment(event.target.value)}>
+              <input
+                type="radio"
+                id="payment1"
+                name="payment"
+                value="Cartão de crédito parcelado"
+              />
+              <label htmlFor="payment1">Parcelado no cartão de crédito</label>
+              <br />
+              <input
+                type="radio"
+                id="payment2"
+                name="payment"
+                value="Cartão de crédito à vista"
+              />
+              <label htmlFor="payment2">À vista no cartão de crédito</label>
+              <br />
+              <input
+                type="radio"
+                id="payment3"
+                name="payment"
+                value="Cartão de débito à vista"
+              />
+              <label htmlFor="payment3">À vista no cartão de débito</label>
+              <br />
+              <input
+                type="radio"
+                id="payment4"
+                name="payment"
+                value="Boleto à vista"
+              />
+              <label htmlFor="payment4">À vista no Boleto</label>
+              <br />
+            </Payment>
+            <button onClick={sendOrderConfirmation}>Concluir Compra</button>
+          </>
+        ) : (
+          <>
+            <h2>Endereço de entrega:</h2>
+            <CEP onSubmit={getAdress}>
               <input
                 type="text"
-                name="complemento"
-                placeholder="Complemento"
+                name="cep"
+                onChange={(event) => {
+                  event.target.value = cepMask(event.target.value);
+                  setCep(event.target.value);
+                }}
+                placeholder="Digite seu CEP"
+                value={cep}
                 required
               />
-            </StyledInput>
-            <p>Bairro: {address.bairro}</p>
-            <p>Cidade: {address.localidade + "/" + address.uf}</p>
-          </Adress>
-          <h2>Forma de pagamento:</h2>
-          <Payment onChange={(event) => setPayment(event.target.value)}>
-            <input
-              type="radio"
-              id="payment1"
-              name="payment"
-              value="Cartão de crédito parcelado"
-            />
-            <label htmlFor="payment1">Parcelado no cartão de crédito</label>
-            <br />
-            <input
-              type="radio"
-              id="payment2"
-              name="payment"
-              value="Cartão de crédito à vista"
-            />
-            <label htmlFor="payment2">À vista no cartão de crédito</label>
-            <br />
-            <input
-              type="radio"
-              id="payment3"
-              name="payment"
-              value="Cartão de débito à vista"
-            />
-            <label htmlFor="payment3">À vista no cartão de débito</label>
-            <br />
-            <input
-              type="radio"
-              id="payment4"
-              name="payment"
-              value="Boleto à vista"
-            />
-            <label htmlFor="payment4">À vista no Boleto</label>
-            <br />
-          </Payment>
-          <button onClick={sendOrderConfirmation}>Concluir Compra</button>
-        </>
-      ) : (
-        <>
-          <h2>Endereço de entrega:</h2>
-          <CEP onSubmit={getAdress}>
-            <input
-              type="text"
-              name="cep"
-              onChange={(event) => {
-                event.target.value = cepMask(event.target.value);
-                setCep(event.target.value);
-              }}
-              placeholder="Digite seu CEP"
-              value={cep}
-              required
-            />
-            <button type="submit">OK</button>
-          </CEP>
-        </>
-      )}
-    </CheckOutContainer>
+              <button type="submit">OK</button>
+            </CEP>
+          </>
+        )}
+      </CheckOutContainer>
+    </>
   );
 }
 
 const CheckOutContainer = styled.div`
-  width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
+
+  margin: 0 auto;
 
   h2 {
     padding-left: 20px;

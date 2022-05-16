@@ -16,42 +16,48 @@ export default function OrderConfirmation() {
   });
 
   return (
-    <OrderContainer>
+    <>
       <Header />
       <Top>
         <h1 className="menu">Pedido Concluído</h1>
       </Top>
-      <ProductsList>
-        {cartQuantity.map((product, index) => (
-          <ProductLine key={index} product={product} />
-        ))}
-        <p className="total">Total: R$ {total.toFixed(2).replace(".", ",")}</p>
-      </ProductsList>
-      <h2>Endereço de entrega:</h2>
-      <Adress>
-        <p>
-          {address.logradouro +
-            ", " +
-            address.numero +
-            ", " +
-            address.complemento}
-        </p>
-        <p>Bairro: {address.bairro}</p>
-        <p>Cidade: {address.localidade + "/" + address.uf}</p>
-      </Adress>
-      <h2>Forma de pagamento:</h2>
-      <Payment>
-        <p>{payment}</p>
-      </Payment>
-      <button onClick={() => navigate("/")}>Home</button>
-    </OrderContainer>
+      <OrderContainer>
+        <ProductsList>
+          {cartQuantity.map((product, index) => (
+            <ProductLine key={index} product={product} />
+          ))}
+          <p className="total">
+            Total: R$ {total.toFixed(2).replace(".", ",")}
+          </p>
+        </ProductsList>
+        <h2>Endereço de entrega:</h2>
+        <Adress>
+          <p>
+            {address.logradouro +
+              ", " +
+              address.numero +
+              ", " +
+              address.complemento}
+          </p>
+          <p>Bairro: {address.bairro}</p>
+          <p>Cidade: {address.localidade + "/" + address.uf}</p>
+        </Adress>
+        <h2>Forma de pagamento:</h2>
+        <Payment>
+          <p>{payment}</p>
+        </Payment>
+        <button onClick={() => navigate("/")}>Home</button>
+      </OrderContainer>
+    </>
   );
 }
 
 const OrderContainer = styled.div`
-  width: 100%;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
+
+  margin: 0 auto;
 
   h2 {
     padding-left: 20px;

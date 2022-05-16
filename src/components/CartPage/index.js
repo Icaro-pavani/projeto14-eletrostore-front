@@ -51,12 +51,11 @@ export default function Cart() {
   return (
     <>
       <Header />
+      <TopBar>
+        <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
+        <TrashIcon onClick={clearCart} className="trashIcon" />
+      </TopBar>
       <CartComponent>
-        <span className="topBar">
-          <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
-          <TrashIcon onClick={clearCart} className="trashIcon" />
-        </span>
-
         <div className="cartProducts">
           {cart.length > 0
             ? cart.map(({ name, price, amount, images }) => {
@@ -93,32 +92,14 @@ export default function Cart() {
 
 const CartComponent = styled.section`
   min-height: 50.7rem;
-  width: 100%;
+  max-width: 800px;
+
+  margin: 0 auto;
 
   padding: 0 1.5rem;
 
   display: flex;
   flex-direction: column;
-
-  .topBar {
-    height: 2.75rem;
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 2.5rem;
-    margin-top: 0.5rem;
-
-    .arrowIcon,
-    .trashIcon {
-      font-size: 1.5rem;
-      color: var(--black);
-
-      cursor: pointer;
-    }
-  }
 
   footer {
     position: fixed;
@@ -139,6 +120,27 @@ const CartComponent = styled.section`
         font-weight: 700;
       }
     }
+  }
+`;
+
+const TopBar = styled.span`
+  height: 2.75rem;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 2.5rem;
+  margin-top: 0.5rem;
+  padding: 0 1.5rem;
+
+  .arrowIcon,
+  .trashIcon {
+    font-size: 1.5rem;
+    color: var(--black);
+
+    cursor: pointer;
   }
 `;
 

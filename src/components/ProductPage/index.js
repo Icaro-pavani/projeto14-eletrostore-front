@@ -121,19 +121,19 @@ export default function ProductPage() {
   return (
     <>
       <Header />
-      <ProductPageComponent>
-        <span className="topBar">
-          <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
-          <span onClick={() => navigate("/cart")} className="cartIconContainer">
-            <CartIcon className="cartIcon" />
-            {getTotal() > 0 ? (
-              <div className="cartProductIndicator">{getTotal()}</div>
-            ) : (
-              <></>
-            )}
-          </span>
+      <TopBar>
+        <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
+        <span onClick={() => navigate("/cart")} className="cartIconContainer">
+          <CartIcon className="cartIcon" />
+          {getTotal() > 0 ? (
+            <div className="cartProductIndicator">{getTotal()}</div>
+          ) : (
+            <></>
+          )}
         </span>
+      </TopBar>
 
+      <ProductPageComponent>
         <h1>{productData.name ? productData.name.toUpperCase() : ""}</h1>
 
         <ProductDataContext.Provider value={{ productData }}>
@@ -176,50 +176,12 @@ export default function ProductPage() {
 const ProductPageComponent = styled.section`
   background-color: #fff;
 
-  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  .topBar {
-    height: 2.75rem;
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1.5rem;
-
-    margin-top: 0.5rem;
-
-    .arrowIcon,
-    .cartIcon {
-      font-size: 1.5rem;
-      color: var(--black);
-
-      cursor: pointer;
-    }
-
-    .cartIconContainer {
-      position: relative;
-
-      .cartProductIndicator {
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        right: 0.5rem;
-        top: -0.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background-color: red;
-        color: #fff;
-        z-index: 2;
-      }
-    }
-  }
 
   h1 {
     font-family: "Montserrat", sans-serif;
@@ -230,6 +192,45 @@ const ProductPageComponent = styled.section`
     justify-self: center;
 
     margin: 1.75rem 1rem 0;
+  }
+`;
+
+const TopBar = styled.span`
+  height: 2.75rem;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+
+  margin-top: 0.5rem;
+
+  .arrowIcon,
+  .cartIcon {
+    font-size: 1.5rem;
+    color: var(--black);
+
+    cursor: pointer;
+  }
+
+  .cartIconContainer {
+    position: relative;
+
+    .cartProductIndicator {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      right: 0.5rem;
+      top: -0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: red;
+      color: #fff;
+      z-index: 2;
+    }
   }
 `;
 

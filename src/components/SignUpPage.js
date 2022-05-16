@@ -104,14 +104,13 @@ export default function SignUpPage() {
 
 const SignUpContainer = styled.div`
   width: 100%;
-  height: 100vh;
   background-image: url(${background});
   background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 150px;
-  padding: 150px 10% 0;
+  padding: 150px 10% 50px;
 
   img {
     width: 350px;
