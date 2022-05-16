@@ -110,7 +110,7 @@ const SignUpContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 150px;
-  padding: 150px 10% 50px;
+  padding: 150px 10%;
 
   img {
     width: 350px;
