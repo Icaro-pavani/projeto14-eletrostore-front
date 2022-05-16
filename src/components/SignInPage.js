@@ -126,14 +126,13 @@ export default function SignInPage() {
 
 const SignInComponent = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-image: url(${background});
   background-size: cover;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 150px;
-  padding: 150px 10% 0;
+  padding: 150px 10%;
 
   img {
     width: 350px;
