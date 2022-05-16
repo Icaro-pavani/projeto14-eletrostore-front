@@ -2,7 +2,7 @@
 
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
-import { IoCartOutline as CartIcon } from "react-icons/io5";
+import { FiShoppingCart as CartIcon } from "react-icons/fi";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -94,14 +94,6 @@ export default function ProductPage() {
     navigate("/cart");
   }
 
-  function getTotal() {
-    let total = 0;
-    cartQuantity.forEach(({ quantity }) => {
-      total += quantity;
-    });
-    return total;
-  }
-
   return (
     <>
       <Header />
@@ -109,11 +101,6 @@ export default function ProductPage() {
         <span className="topBar">
           <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
           <CartIcon onClick={() => navigate("/cart")} className="cartIcon" />
-          {getTotal() > 0 ? (
-            <div className="cartProductIndicator">{getTotal()}</div>
-          ) : (
-            <></>
-          )}
         </span>
 
         <h1>{productData.name ? productData.name.toUpperCase() : ""}</h1>
@@ -174,28 +161,6 @@ const ProductPageComponent = styled.section`
     padding: 0 1.5rem;
 
     margin-top: 0.5rem;
-
-    position: relative;
-
-    .cartProductIndicator {
-      width: 20px;
-      height: 20px;
-
-      position: absolute;
-      right: 1.8rem;
-      top: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 50%;
-
-      background-color: red;
-      color: #fff;
-
-      z-index: 2;
-    }
 
     .arrowIcon,
     .cartIcon {

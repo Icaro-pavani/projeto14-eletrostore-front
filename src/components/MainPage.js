@@ -18,8 +18,9 @@ export default function MainPage() {
 
   const navigate = useNavigate();
 
-  const { token, username, userEmail, cartQuantity } =
-    useContext(UserInfoContext);
+  console.log(filter);
+
+  const { token, username, userEmail } = useContext(UserInfoContext);
 
   const API_URL = "https://eletrostore-api.herokuapp.com/products";
 
@@ -50,7 +51,7 @@ export default function MainPage() {
       promise.then(updateProducts);
       promise.catch((error) => console.log(error.response.data));
     }
-  }, [category, token, navigate, filter]); // eslint-disable-line
+  }, [category, token, navigate, filter]);
 
   function updateProducts({ data }) {
     const productsData = [...data];
@@ -67,16 +68,6 @@ export default function MainPage() {
     setNumCategory(num);
   }
 
-  function getTotal() {
-    let total = 0;
-    cartQuantity.forEach(({ quantity }) => {
-      total += quantity;
-    });
-
-    console.log(total);
-    return total;
-  }
-
   return (
     <MainPageContainer>
       <PageTop>
@@ -91,11 +82,6 @@ export default function MainPage() {
             onClick={() => navigate("/cart")}
             className="nav-icon"
           />
-          {getTotal() > 0 ? (
-            <div className="cartProductIndicator">{getTotal()}</div>
-          ) : (
-            <></>
-          )}
         </NavBar>
       </PageTop>
       <h2>Olá, {username}</h2>
@@ -167,31 +153,10 @@ const NavBar = styled.nav`
   justify-content: space-between;
   padding: 15px 5%;
   background-color: #fff;
-  position: relative;
 
   .nav-icon {
     font-size: 24px;
     color: var(--black);
-  }
-
-  .cartProductIndicator {
-    width: 20px;
-    height: 20px;
-
-    position: absolute;
-    right: 3.2rem;
-    top: 1rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background-color: red;
-    color: #fff;
-
-    z-index: 2;
   }
 `;
 
