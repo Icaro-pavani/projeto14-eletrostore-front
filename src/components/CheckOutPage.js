@@ -16,7 +16,6 @@ export default function CheckOutPage() {
     useContext(UserInfoContext);
 
   const API_URL_ORDERS = "https://eletrostore-api.herokuapp.com/orders";
-  // const API_URL_ORDERS = "http://localhost:5000/orders";
 
   const navigate = useNavigate();
 

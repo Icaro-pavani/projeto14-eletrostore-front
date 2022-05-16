@@ -151,11 +151,6 @@ const StyledForm = styled.form`
 
     transition: all 0.5s;
 
-    &:hover {
-      filter: brightness(1.5);
-      cursor: pointer;
-    }
-
     &:disabled {
       opacity: 0.8;
     }
