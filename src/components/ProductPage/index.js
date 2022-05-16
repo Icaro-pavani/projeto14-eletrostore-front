@@ -2,7 +2,7 @@
 
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
-import { FiShoppingCart as CartIcon } from "react-icons/fi";
+import { IoCartOutline as CartIcon } from "react-icons/io5";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -77,6 +77,22 @@ export default function ProductPage() {
   }
 
   function addToCart() {
+    const sameProduct = cartQuantity.find(
+      (prod) => prod?.name === productData.name
+    );
+    if (sameProduct) {
+      const auxArr = cartQuantity.filter(
+        (prod) => prod.name !== productData.name
+      );
+
+      setCartQuantity([
+        ...auxArr,
+        { ...sameProduct, quantity: sameProduct.quantity + 1 },
+      ]);
+      navigate("/cart");
+      return;
+    }
+
     setCart([...cart, productData]);
     setCartQuantity([
       ...cartQuantity,
@@ -94,13 +110,29 @@ export default function ProductPage() {
     navigate("/cart");
   }
 
+  function getTotal() {
+    let total = 0;
+    cartQuantity.forEach(({ quantity }) => {
+      total += quantity;
+    });
+
+    return total;
+  }
+
   return (
     <>
       <Header />
       <ProductPageComponent>
         <span className="topBar">
           <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
-          <CartIcon onClick={() => navigate("/cart")} className="cartIcon" />
+          <span className="cartIconContainer">
+            <CartIcon onClick={() => navigate("/cart")} className="cartIcon" />
+            {getTotal() > 0 ? (
+              <div className="cartProductIndicator">{getTotal()}</div>
+            ) : (
+              <></>
+            )}
+          </span>
         </span>
 
         <h1>{productData.name ? productData.name.toUpperCase() : ""}</h1>
@@ -168,6 +200,25 @@ const ProductPageComponent = styled.section`
       color: var(--black);
 
       cursor: pointer;
+    }
+
+    .cartIconContainer {
+      position: relative;
+
+      .cartProductIndicator {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 0.5rem;
+        top: -0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: red;
+        color: #fff;
+        z-index: 2;
+      }
     }
   }
 

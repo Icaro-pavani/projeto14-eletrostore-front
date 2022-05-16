@@ -22,7 +22,8 @@ export default function MainPage() {
   let searchTitle = "";
   const navigate = useNavigate();
 
-  const { token, username, userEmail } = useContext(UserInfoContext);
+  const { token, username, userEmail, cartQuantity } =
+    useContext(UserInfoContext);
 
   const API_URL = "https://eletrostore-api.herokuapp.com/products";
 
@@ -79,6 +80,15 @@ export default function MainPage() {
     setSearch("");
   }
 
+  function getTotal() {
+    let total = 0;
+    cartQuantity.forEach(({ quantity }) => {
+      total += quantity;
+    });
+
+    return total;
+  }
+
   return (
     <MainPageContainer>
       <PageTop>
@@ -114,10 +124,19 @@ export default function MainPage() {
             />
             <IoSearchSharp className="search-icon" />
           </SearchField>
-          <IoCartOutline
-            onClick={() => navigate("/cart")}
-            className="nav-icon"
-          />
+
+          <span className="cart-icon">
+            <IoCartOutline
+              onClick={() => navigate("/cart")}
+              className="nav-icon"
+            />
+
+            {getTotal() > 0 ? (
+              <div className="cartProductIndicator">{getTotal()}</div>
+            ) : (
+              <></>
+            )}
+          </span>
         </NavBar>
       </PageTop>
       {searchActive ? (
@@ -212,6 +231,25 @@ const NavBar = styled.nav`
   .nav-icon {
     font-size: 24px;
     color: var(--black);
+  }
+
+  .cart-icon {
+    position: relative;
+
+    .cartProductIndicator {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      right: 0.5rem;
+      top: -0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: red;
+      color: #fff;
+      z-index: 2;
+    }
   }
 `;
 

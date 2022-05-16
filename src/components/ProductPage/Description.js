@@ -6,8 +6,6 @@ import ProductDataContext from "../../context/ProductDataContext";
 export default function Description() {
   const { productData } = useContext(ProductDataContext);
 
-  console.log("productData: ", productData);
-
   return (
     <DescriptionComponent>
       <h2>Descrição do Produto</h2>

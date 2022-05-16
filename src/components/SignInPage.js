@@ -57,7 +57,6 @@ export default function SignInPage() {
 
   async function signIn() {
     const API_URL = "https://eletrostore-api.herokuapp.com/sign-in";
-    // const API_URL = "http://localhost:5000/sign-in";
 
     try {
       setDisabled(true);

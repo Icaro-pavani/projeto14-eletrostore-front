@@ -55,7 +55,6 @@ export default function CheckOutPage() {
   }
 
   function sendOrderConfirmation() {
-    console.log({ cartQuantity, address, payment });
     const promise = axios.post(
       API_URL_ORDERS,
       {

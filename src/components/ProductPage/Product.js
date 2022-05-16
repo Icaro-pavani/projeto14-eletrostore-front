@@ -16,22 +16,24 @@ export default function Product() {
             })
           : []}
       </ProductImagesComponent>
-      <Price>
-        <p>R$ {productData ? productData.price : "0,00"}</p>
-        <small>à vista</small>
-      </Price>
-      <FowardPrice>
-        <small>ou em até 12x de</small>
-        <p>
-          R${" "}
-          {productData
-            ? (parseInt(productData.price) / 12)
-                .toFixed(2)
-                .toString()
-                .replace(".", ",")
-            : []}
-        </p>
-      </FowardPrice>
+      <PriceWrapper>
+        <Price>
+          <p>R$ {productData ? productData.price : "0,00"}</p>
+          <small>à vista</small>
+        </Price>
+        <FowardPrice>
+          <small>ou em até 12x de</small>
+          <p>
+            R${" "}
+            {productData
+              ? (parseInt(productData.price) / 12)
+                  .toFixed(2)
+                  .toString()
+                  .replace(".", ",")
+              : []}
+          </p>
+        </FowardPrice>
+      </PriceWrapper>
     </>
   );
 }
@@ -61,6 +63,11 @@ const Price = styled.span`
     letter-spacing: 0.2px;
 
     margin-left: 0.6px;
+  }
+
+  @media (min-width: 750px) {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 `;
 
@@ -120,4 +127,8 @@ const ProductImagesComponent = styled.article`
 
     border-radius: 0.625rem;
   }
+`;
+
+const PriceWrapper = styled.div`
+  align-self: flex-start;
 `;
