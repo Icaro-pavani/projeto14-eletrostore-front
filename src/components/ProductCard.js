@@ -30,6 +30,7 @@ const ProductCardContainer = styled.div`
   justify-content: center;
   border-radius: 15px;
   margin-bottom: 20px;
+  margin-top: 10px;
 
   img {
     width: 100%;

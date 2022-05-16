@@ -1,6 +1,7 @@
 ﻿import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMailOutline, IoLockClosedOutline } from "react-icons/io5";
+import { Bars } from "react-loader-spinner";
 
 import styled from "styled-components";
 import axios from "axios";
@@ -15,6 +16,7 @@ export default function SignInPage() {
     email: "",
     password: "",
   });
+  const [disabled, setDisabled] = useState(false);
 
   const { setToken, setUsername, setUserEmail } = useContext(UserInfoContext);
   const navigate = useNavigate();
@@ -58,6 +60,7 @@ export default function SignInPage() {
     // const API_URL = "http://localhost:5000/sign-in";
 
     try {
+      setDisabled(true);
       const response = await axios.post(API_URL, userData);
       const { username, token } = response.data;
 
@@ -76,6 +79,7 @@ export default function SignInPage() {
       navigate("/products");
     } catch (e) {
       console.error(" Failed request! Please, try again later...", e);
+      setDisabled(false);
     }
   }
 
@@ -89,6 +93,7 @@ export default function SignInPage() {
             type="email"
             id="emailInput"
             name="email"
+            disabled={disabled}
             placeholder="Email"
             required
           />
@@ -101,13 +106,16 @@ export default function SignInPage() {
             type="password"
             id="passwordInput"
             name="password"
+            disabled={disabled}
             placeholder="Senha"
             required
           />
           <IoLockClosedOutline className="input-icon" />
         </InputContainer>
 
-        <button type="submit">Entrar</button>
+        <button type="submit" disabled={disabled}>
+          {disabled ? <Bars color="#fff" height={30} width={30} /> : "Entrar"}
+        </button>
       </StyledForm>
       <p>
         Não possui uma conta?{" "}
@@ -149,6 +157,9 @@ const StyledForm = styled.form`
   align-items: center;
 
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 40px;
     border-radius: 10px;
@@ -158,6 +169,10 @@ const StyledForm = styled.form`
     font-size: 16px;
     line-height: 20px;
     margin-bottom: 30px;
+
+    &:disabled {
+      opacity: 0.8;
+    }
   }
 `;
 
@@ -179,6 +194,14 @@ const InputContainer = styled.div`
     margin-bottom: 25px;
     font-size: 14px;
     line-height: 20px;
+
+    &:invalid {
+      border: 2px solid rgba(255, 0, 0, 0.6);
+    }
+
+    &:disabled {
+      background-color: var(--disabled-background);
+    }
   }
 
   .input-icon {

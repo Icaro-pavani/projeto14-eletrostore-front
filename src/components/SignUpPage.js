@@ -151,11 +151,6 @@ const StyledForm = styled.form`
 
     transition: all 0.5s;
 
-    &:hover {
-      filter: brightness(1.5);
-      cursor: pointer;
-    }
-
     &:disabled {
       opacity: 0.8;
     }
@@ -180,6 +175,10 @@ const InputContainer = styled.div`
     margin-bottom: 25px;
     font-size: 14px;
     line-height: 20px;
+
+    &:invalid {
+      border: 2px solid rgba(255, 0, 0, 0.6);
+    }
 
     &:disabled {
       background-color: var(--disabled-background);

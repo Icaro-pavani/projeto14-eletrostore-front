@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import { IoMenuOutline, IoCartOutline, IoSearchSharp } from "react-icons/io5";
+import { IoIosArrowBack } from "react-icons/io";
 
 import Header from "./Header";
 import ProductCard from "./ProductCard";
@@ -13,9 +14,12 @@ export default function MainPage() {
   const [numCategory, setNumCategory] = useState(1);
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState("");
+  const [search, setSearch] = useState("");
+  const [searchActive, setSearchActive] = useState(false);
   const [filter, setFilter] = useState("");
   const [active, setActive] = useState(false);
 
+  let searchTitle = "";
   const navigate = useNavigate();
 
   const { token, username, userEmail } = useContext(UserInfoContext);
@@ -66,14 +70,48 @@ export default function MainPage() {
     setNumCategory(num);
   }
 
+  function searchProduct() {
+    const productsData = [...products].filter((product) =>
+      product.name.toLowerCase().includes(search.toLowerCase())
+    );
+    setProducts([...productsData]);
+    setSearchActive(true);
+    setSearch("");
+  }
+
   return (
     <MainPageContainer>
       <PageTop>
         <Header />
         <NavBar>
-          <IoMenuOutline className="nav-icon" onClick={() => setActive(true)} />
-          <SearchField>
-            <input type="text" placeholder="Buscar produto" />
+          {searchActive ? (
+            <IoIosArrowBack
+              className="nav-icon"
+              onClick={() => {
+                setFilter(...filter);
+                setSearchActive(false);
+              }}
+            />
+          ) : (
+            <IoMenuOutline
+              className="nav-icon"
+              onClick={() => setActive(true)}
+            />
+          )}
+
+          <SearchField
+            onSubmit={(event) => {
+              event.preventDefault();
+              searchProduct();
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Buscar produto"
+              onChange={(event) => setSearch(event.target.value)}
+              disabled={searchActive}
+              // value={search}
+            />
             <IoSearchSharp className="search-icon" />
           </SearchField>
           <IoCartOutline
@@ -82,15 +120,25 @@ export default function MainPage() {
           />
         </NavBar>
       </PageTop>
-      <h2>Olá, {username}</h2>
-      <h1>Do que você precisa hoje?</h1>
+      {searchActive ? (
+        <h3 className="search">{searchTitle}</h3>
+      ) : (
+        <>
+          <h2>Olá, {username}</h2>
+          <h1>Do que você precisa hoje?</h1>
+        </>
+      )}
       <ProductsContainer>
-        <NavProducts num={numCategory}>
-          <p onClick={() => changeCategory("", 1)}>Todos</p>
-          <p onClick={() => changeCategory("notebook", 2)}>Notebooks</p>
-          <p onClick={() => changeCategory("televisão", 3)}>Televisões</p>
-          <p onClick={() => changeCategory("celular", 4)}>Celulares</p>
-        </NavProducts>
+        {searchActive ? (
+          <></>
+        ) : (
+          <NavProducts num={numCategory}>
+            <p onClick={() => changeCategory("", 1)}>Todos</p>
+            <p onClick={() => changeCategory("notebook", 2)}>Notebooks</p>
+            <p onClick={() => changeCategory("televisão", 3)}>Televisões</p>
+            <p onClick={() => changeCategory("celular", 4)}>Celulares</p>
+          </NavProducts>
+        )}
         <ProductsCardsContainer>
           {products?.length > 0 ? (
             products.map((prod, index) => (
@@ -135,6 +183,15 @@ const MainPageContainer = styled.div`
     line-height: 20px;
     margin-left: 25px;
   }
+
+  .search {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: bold;
+    margin-left: 25px;
+    margin-bottom: 40px;
+    margin-top: 150px;
+  }
 `;
 
 const PageTop = styled.div`
@@ -158,7 +215,7 @@ const NavBar = styled.nav`
   }
 `;
 
-const SearchField = styled.div`
+const SearchField = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;

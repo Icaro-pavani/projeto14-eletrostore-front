@@ -4,14 +4,14 @@ import styled from "styled-components";
 import Header from "./Header";
 import ProductLine from "./ProductLine";
 
-export default function OrderConfirmation() {
+export default function OrderDetail() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { address, payment, cartQuantity } = location.state;
+  const { address, payment, products, date } = location.state;
 
   let total = 0;
-  cartQuantity.forEach((product) => {
+  products.forEach((product) => {
     total += parseFloat(product.price.replace(",", "."));
   });
 
@@ -19,10 +19,10 @@ export default function OrderConfirmation() {
     <OrderContainer>
       <Header />
       <Top>
-        <h1 className="menu">Pedido Concluído</h1>
+        <h1 className="menu">Pedido Realizado em {date}</h1>
       </Top>
       <ProductsList>
-        {cartQuantity.map((product, index) => (
+        {products.map((product, index) => (
           <ProductLine key={index} product={product} />
         ))}
         <p className="total">Total: R$ {total.toFixed(2).replace(".", ",")}</p>

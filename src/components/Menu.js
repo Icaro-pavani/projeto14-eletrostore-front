@@ -28,8 +28,11 @@ export default function Menu({ name, email, setFilter, setActive, active }) {
       </Header>
       <p className="name">{name}</p>
       <p className="email">{email}</p>
+      <h2 className="my-orders" onClick={() => navigate("/my-orders")}>Meus Pedidos</h2>
       <FilterContainer>
-        <h2 className="filters">Filtros</h2>
+        <h2 className="filters">
+          Filtros
+        </h2>
         <form onChange={(event) => setFilter(event.target.value)}>
           <input type="radio" id="filter1" name="filter" value="menor" />
           <label htmlFor="filter1">Organizar por menor preço</label>
@@ -55,6 +58,16 @@ const MenuContainer = styled.div`
   z-index: 2;
   background-color: #fff;
   transform: translateX(${(props) => (props.active ? "0" : "-300px")});
+
+  .my-orders {
+    margin: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+    border-top: 1px solid var(--grey);
+  }
 
   form {
     input {
