@@ -32,29 +32,32 @@ export default function MyOrders() {
   }, [token]);
 
   return (
-    <MyOrdersContainer>
+    <>
       <Header />
       <Top>
         <IoIosArrowBack className="menu-icon" onClick={() => navigate(-1)} />
         <h1 className="menu">Meus Pedidos</h1>
       </Top>
-      <Orders>
-        {orders.length > 0 ? (
-          <>
-            {orders.map((order, index) => (
-              <OrderList key={index} order={order} />
-            ))}
-          </>
-        ) : (
-          <p>{noOrders}</p>
-        )}
-      </Orders>
-    </MyOrdersContainer>
+      <MyOrdersContainer>
+        <Orders>
+          {orders.length > 0 ? (
+            <>
+              {orders.map((order, index) => (
+                <OrderList key={index} order={order} />
+              ))}
+            </>
+          ) : (
+            <p>{noOrders}</p>
+          )}
+        </Orders>
+      </MyOrdersContainer>
+    </>
   );
 }
 
 const MyOrdersContainer = styled.div`
-  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 `;
 
 const Top = styled.div`
