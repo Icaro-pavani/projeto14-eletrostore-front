@@ -12,6 +12,7 @@ import UserInfoContext from "../context/UserInfoContext";
 import GlobalStyle from "../assets/theme/GlobalStyle";
 import CheckOutPage from "./CheckOutPage";
 import OrderConfirmation from "./OrderConfirmation";
+import MyOrders from "./MyOrders";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<CheckOutPage />} />
             <Route path="order-confirmation" element={<OrderConfirmation />} />
+            <Route path="my-orders" element={<MyOrders />} />
           </Routes>
         </BrowserRouter>
       </UserInfoContext.Provider>

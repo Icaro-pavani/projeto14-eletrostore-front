@@ -181,6 +181,10 @@ const InputContainer = styled.div`
     font-size: 14px;
     line-height: 20px;
 
+    &:invalid {
+      border: 2px solid rgba(255, 0, 0, 0.6);
+    }
+
     &:disabled {
       background-color: var(--disabled-background);
     }
