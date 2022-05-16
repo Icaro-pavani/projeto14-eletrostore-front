@@ -112,15 +112,18 @@ const ProductImagesComponent = styled.article`
   align-items: center;
 
   overflow-x: scroll;
+  overflow-y: hidden;
 
   background-color: var(--light-gray);
 
-  /* Firefox */
-  scrollbar-width: none;
+  @media (max-width: 750px) {
+    /* Firefox */
+    scrollbar-width: none;
 
-  /* Safari and Chrome */
-  &::-webkit-scrollbar {
-    display: none;
+    /* Safari and Chrome */
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   img {

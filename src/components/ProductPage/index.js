@@ -270,12 +270,14 @@ const ProductSugestions = styled.section`
     white-space: nowrap;
     overflow-x: scroll;
 
-    /* Firefox */
-    scrollbar-width: none;
+    @media (max-width: 750px) {
+      /* Firefox */
+      scrollbar-width: none;
 
-    /* Safari and Chrome */
-    &::-webkit-scrollbar {
-      display: none;
+      /* Safari and Chrome */
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
 

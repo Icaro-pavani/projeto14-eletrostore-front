@@ -16,7 +16,7 @@ export default function MainPage() {
   const [category, setCategory] = useState("");
   const [search, setSearch] = useState("");
   const [searchActive, setSearchActive] = useState(false);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState({filter: ""});
   const [active, setActive] = useState(false);
 
   let searchTitle = "";
@@ -39,9 +39,9 @@ export default function MainPage() {
 
     function updateProducts({ data }) {
       const productsData = [...data];
-      if (filter === "menor") {
+      if (filter.filter === "menor") {
         productsData.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-      } else if (filter === "maior") {
+      } else if (filter.filter === "maior") {
         productsData.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
       }
       setProducts([...productsData]);
@@ -98,7 +98,7 @@ export default function MainPage() {
             <IoIosArrowBack
               className="nav-icon"
               onClick={() => {
-                setFilter(...filter);
+                setFilter({...filter});
                 setSearchActive(false);
               }}
             />

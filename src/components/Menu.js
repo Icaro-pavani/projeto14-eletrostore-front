@@ -33,7 +33,7 @@ export default function Menu({ name, email, setFilter, setActive, active }) {
         <h2 className="filters">
           Filtros
         </h2>
-        <form onChange={(event) => setFilter(event.target.value)}>
+        <form onChange={(event) => setFilter({filter: event.target.value})}>
           <input type="radio" id="filter1" name="filter" value="menor" />
           <label htmlFor="filter1">Organizar por menor preço</label>
           <br />
