@@ -10,7 +10,6 @@ import ProductDataContext from "../../context/ProductDataContext";
 import UserInfoContext from "../../context/UserInfoContext";
 import TabsComponent from "./TabsComponent";
 import Header from "../Header";
-
 import ProductCard from "../ProductCard";
 
 export default function ProductPage() {
@@ -42,7 +41,7 @@ export default function ProductPage() {
     }
   }, []); //eslint-disable-line
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
     getProduct();
   }, [window.location.pathname]); // eslint-disable-line
 
@@ -125,8 +124,8 @@ export default function ProductPage() {
       <ProductPageComponent>
         <span className="topBar">
           <ArrowIcon onClick={() => navigate(-1)} className="arrowIcon" />
-          <span className="cartIconContainer">
-            <CartIcon onClick={() => navigate("/cart")} className="cartIcon" />
+          <span onClick={() => navigate("/cart")} className="cartIconContainer">
+            <CartIcon className="cartIcon" />
             {getTotal() > 0 ? (
               <div className="cartProductIndicator">{getTotal()}</div>
             ) : (

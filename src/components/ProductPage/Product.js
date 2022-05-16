@@ -1,10 +1,12 @@
-﻿import { useContext } from "react";
-import styled from "styled-components";
+﻿import { useState, useContext } from "react";
+import { Bars } from "react-loader-spinner";
 import { v4 as uuidv4 } from "uuid";
+import styled from "styled-components";
 
 import ProductDataContext from "../../context/ProductDataContext";
 
 export default function Product() {
+  const [loading] = useState(<Bars />);
   const { productData } = useContext(ProductDataContext);
 
   return (
@@ -12,9 +14,9 @@ export default function Product() {
       <ProductImagesComponent>
         {productData
           ? productData.images.map(({ src, alt }) => {
-              return <img src={src} alt={alt} key={uuidv4()} />;
+              return src ? <img src={src} alt={alt} key={uuidv4()} /> : loading;
             })
-          : []}
+          : loading}
       </ProductImagesComponent>
       <PriceWrapper>
         <Price>
@@ -25,12 +27,12 @@ export default function Product() {
           <small>ou em até 12x de</small>
           <p>
             R${" "}
-            {productData
+            {productData?.price
               ? (parseInt(productData.price) / 12)
                   .toFixed(2)
                   .toString()
                   .replace(".", ",")
-              : []}
+              : loading}
           </p>
         </FowardPrice>
       </PriceWrapper>
@@ -131,4 +133,9 @@ const ProductImagesComponent = styled.article`
 
 const PriceWrapper = styled.div`
   align-self: flex-start;
+  margin-right: 1.5rem;
+
+  @media (min-width: 750px) {
+    align-self: center;
+  }
 `;
