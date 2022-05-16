@@ -13,6 +13,7 @@ import GlobalStyle from "../assets/theme/GlobalStyle";
 import CheckOutPage from "./CheckOutPage";
 import OrderConfirmation from "./OrderConfirmation";
 import MyOrders from "./MyOrders";
+import OrderDetail from "./OrderDetail";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -48,6 +49,7 @@ export default function App() {
             <Route path="/checkout" element={<CheckOutPage />} />
             <Route path="order-confirmation" element={<OrderConfirmation />} />
             <Route path="my-orders" element={<MyOrders />} />
+            <Route path="/order-detail" element={<OrderDetail />} />
           </Routes>
         </BrowserRouter>
       </UserInfoContext.Provider>
