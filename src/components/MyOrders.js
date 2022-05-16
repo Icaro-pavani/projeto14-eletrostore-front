@@ -10,6 +10,7 @@ import UserInfoContext from "../context/UserInfoContext";
 
 export default function MyOrders() {
   const [orders, setOrders] = useState([]);
+  const [noOrders, setNoOrders] = useState("");
 
   const { token } = useContext(UserInfoContext);
 
@@ -24,7 +25,10 @@ export default function MyOrders() {
       },
     });
     promise.then(({ data }) => setOrders([...data]));
-    promise.catch((error) => console.log(error.response));
+    promise.catch((error) => {
+      console.log(error.response);
+      setNoOrders("Não há pedidos realizados");
+    });
   }, [token]);
 
   return (
@@ -35,9 +39,15 @@ export default function MyOrders() {
         <h1 className="menu">Meus Pedidos</h1>
       </Top>
       <Orders>
-        {orders.map((order, index) => (
-          <OrderList key={index} order={order} />
-        ))}
+        {orders.length > 0 ? (
+          <>
+            {orders.map((order, index) => (
+              <OrderList key={index} order={order} />
+            ))}
+          </>
+        ) : (
+          <p>{noOrders}</p>
+        )}
       </Orders>
     </MyOrdersContainer>
   );
