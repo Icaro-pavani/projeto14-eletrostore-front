@@ -17,17 +17,17 @@ const ProductLineContainer = styled.li`
   height: 100px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   font-size: 14px;
-  padding: 0 10px;
+  /* padding: 0 10px; */
   border-bottom: 1px solid var(--dark-grey);
 
   img {
-    width: 60px;
+    width: 80px;;
   }
 
   .description {
-    width: 150px;
+    width: 40%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -37,12 +37,12 @@ const ProductLineContainer = styled.li`
   }
 
   .quantity {
-    width: 40px;
+    width: 15%;
     text-align: center;
   }
 
   .price {
-    width: 85px;
+    width: 30%;
     height: 100%;
     display: flex;
     align-items: center;
