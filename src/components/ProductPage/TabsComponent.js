@@ -93,6 +93,7 @@ const StyledTabs = styled.div`
     flex-direction: column;
     @media (min-width: 750px) {
       flex-direction: row;
+      align-items: center;
       gap: 1.5rem;
     }
   }

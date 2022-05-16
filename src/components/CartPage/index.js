@@ -70,7 +70,7 @@ export default function Cart() {
                   />
                 );
               })
-            : emptyCart()}
+            : () => emptyCart()}
         </div>
 
         <footer>

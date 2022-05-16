@@ -125,11 +125,8 @@ export default function MainPage() {
             <IoSearchSharp className="search-icon" />
           </SearchField>
 
-          <span className="cart-icon">
-            <IoCartOutline
-              onClick={() => navigate("/cart")}
-              className="nav-icon"
-            />
+          <span onClick={() => navigate("/cart")} className="cart-icon">
+            <IoCartOutline className="nav-icon" />
 
             {getTotal() > 0 ? (
               <div className="cartProductIndicator">{getTotal()}</div>
