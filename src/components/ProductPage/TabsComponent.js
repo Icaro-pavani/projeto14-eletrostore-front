@@ -66,7 +66,6 @@ const StyledTabs = styled.div`
     width: 50%;
     padding: 1rem;
     list-style: none;
-    /* text-align: center; */
 
     display: flex;
     flex-direction: column;
@@ -87,6 +86,15 @@ const StyledTabs = styled.div`
 
   ul.nav li.active {
     font-weight: 700;
+  }
+
+  .outlet {
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 750px) {
+      flex-direction: row;
+      gap: 1.5rem;
+    }
   }
 `;
 
